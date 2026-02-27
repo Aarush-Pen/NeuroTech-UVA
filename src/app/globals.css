@@ -1,26 +1,159 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* New Friendly Dark Mode Palette */
+  --color-ink: #0F1B2D;
+  /* Deep Navy Background */
+  --color-ink-light: #1A2236;
+  /* Slightly lighter bg for contrast */
+  --color-surface: #1E2D45;
+  /* Cool-toned mid-dark surface */
+  --color-border: #334155;
+  /* Soft blue-grey border */
+
+  --color-blue-primary: #38BDF8;
+  /* Sky Blue - Main Accent */
+  --color-blue-glow: rgba(56, 189, 248, 0.5);
+
+  --color-secondary: #60A5FA;
+  /* Soft Blue */
+  --color-accent: #818CF8;
+  /* Indigo/Periwinkle - Secondary Accent */
+
+  --color-text-primary: #E8F0FE;
+  /* Soft White/Blue-white */
+  --color-text-secondary: #CBD5E1;
+  /* Light Blue-Grey */
+
+  --color-foreground: #E8F0FE;
+  --color-background: #0F1B2D;
+
+  /* Typography Mappings */
+  --font-heading: var(--font-jakarta);
+  --font-body: var(--font-inter);
+
+  /* Backward compatibility for component refactoring (mapping old names to new standard) */
+  --font-cabinet: var(--font-jakarta);
+  /* Map old display font to new heading */
+  --font-lora: var(--font-inter);
+  /* Map old serif to new body */
+  --font-jetbrains: var(--font-inter);
+  /* Map old mono to new body (removing monospace feel) */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Global resets ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: var(--color-ink);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ── Film grain overlay (Softened & Blue-tinted) ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  /* Reduced opacity */
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ── EEG waveform animation (Updated stroke colors in components via props, this is just movement) ── */
+@keyframes eeg-flow {
+  0% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: -1200;
+  }
+}
+
+@keyframes eeg-flow-reverse {
+  0% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: 1200;
+  }
+}
+
+.eeg-line {
+  animation: eeg-flow 12s linear infinite;
+  /* Slower, more calm */
+}
+
+.eeg-line-reverse {
+  animation: eeg-flow-reverse 12s linear infinite;
+}
+
+/* ── Blue Glow Effects ── */
+.blue-glow {
+  text-shadow: 0 0 20px var(--color-blue-glow), 0 0 40px rgba(56, 189, 248, 0.2);
+}
+
+.blue-glow-box {
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.1), 0 0 50px rgba(56, 189, 248, 0.05);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border);
+}
+
+/* ── Selection ── */
+::selection {
+  background: rgba(56, 189, 248, 0.25);
+  color: #fff;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .eeg-line,
+  .eeg-line-reverse {
+    animation: none;
+  }
 }
