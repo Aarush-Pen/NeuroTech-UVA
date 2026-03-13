@@ -1,44 +1,41 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* New Friendly Dark Mode Palette */
-  --color-ink: #0F1B2D;
-  /* Deep Navy Background */
-  --color-ink-light: #1A2236;
-  /* Slightly lighter bg for contrast */
-  --color-surface: #1E2D45;
-  /* Cool-toned mid-dark surface */
-  --color-border: #334155;
-  /* Soft blue-grey border */
+  /* Huddle-inspired Deep Dark Palette with Blue Undertones */
+  --color-ink: #08090F;
+  /* Near-black with blue undertone */
+  --color-ink-light: #0E1018;
+  /* Slightly lighter section bg */
+  --color-surface: #151720;
+  /* Card/elevated surfaces */
+  --color-border: #1F2233;
+  /* Subtle blue-grey border */
 
   --color-blue-primary: #38BDF8;
-  /* Sky Blue - Main Accent */
-  --color-blue-glow: rgba(56, 189, 248, 0.5);
+  /* Sky Blue - Main Accent (kept) */
+  --color-blue-glow: rgba(56, 189, 248, 0.4);
 
   --color-secondary: #60A5FA;
   /* Soft Blue */
   --color-accent: #818CF8;
-  /* Indigo/Periwinkle - Secondary Accent */
+  /* Indigo/Periwinkle */
 
-  --color-text-primary: #E8F0FE;
-  /* Soft White/Blue-white */
-  --color-text-secondary: #CBD5E1;
-  /* Light Blue-Grey */
+  --color-text-primary: #EAEDF3;
+  /* Clean white with slight blue */
+  --color-text-secondary: #7B83A0;
+  /* Blue-grey muted text */
 
-  --color-foreground: #E8F0FE;
-  --color-background: #0F1B2D;
+  --color-foreground: #EAEDF3;
+  --color-background: #08090F;
 
-  /* Typography Mappings */
+  /* Typography */
   --font-heading: var(--font-jakarta);
   --font-body: var(--font-inter);
 
-  /* Backward compatibility for component refactoring (mapping old names to new standard) */
+  /* Backward compatibility */
   --font-cabinet: var(--font-jakarta);
-  /* Map old display font to new heading */
   --font-lora: var(--font-inter);
-  /* Map old serif to new body */
   --font-jetbrains: var(--font-inter);
-  /* Map old mono to new body (removing monospace feel) */
 }
 
 /* ── Global resets ── */
@@ -63,22 +60,21 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Film grain overlay (Softened & Blue-tinted) ── */
+/* ── Very subtle noise texture (huddle-clean) ── */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: 9999;
   pointer-events: none;
-  opacity: 0.03;
-  /* Reduced opacity */
+  opacity: 0.015;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
 }
 
-/* ── EEG waveform animation (Updated stroke colors in components via props, this is just movement) ── */
+/* ── EEG waveform animation ── */
 @keyframes eeg-flow {
   0% {
     stroke-dashoffset: 0;
@@ -100,26 +96,25 @@ body::before {
 }
 
 .eeg-line {
-  animation: eeg-flow 12s linear infinite;
-  /* Slower, more calm */
+  animation: eeg-flow 14s linear infinite;
 }
 
 .eeg-line-reverse {
-  animation: eeg-flow-reverse 12s linear infinite;
+  animation: eeg-flow-reverse 14s linear infinite;
 }
 
 /* ── Blue Glow Effects ── */
 .blue-glow {
-  text-shadow: 0 0 20px var(--color-blue-glow), 0 0 40px rgba(56, 189, 248, 0.2);
+  text-shadow: 0 0 20px var(--color-blue-glow), 0 0 40px rgba(56, 189, 248, 0.15);
 }
 
 .blue-glow-box {
-  box-shadow: 0 0 25px rgba(56, 189, 248, 0.1), 0 0 50px rgba(56, 189, 248, 0.05);
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.08), 0 0 50px rgba(56, 189, 248, 0.04);
 }
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -127,17 +122,17 @@ body::before {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-surface);
-  border-radius: 4px;
+  background: var(--color-border);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-border);
+  background: var(--color-surface);
 }
 
 /* ── Selection ── */
 ::selection {
-  background: rgba(56, 189, 248, 0.25);
+  background: rgba(56, 189, 248, 0.2);
   color: #fff;
 }
 

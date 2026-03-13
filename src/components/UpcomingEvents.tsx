@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import SectionReveal, { RevealItem } from './SectionReveal';
+import EEGWaveform from './EEGWaveform';
+import { ArrowRight, Clock, MapPin } from 'lucide-react';
 
 interface Event {
     dateMonth: string;
@@ -44,13 +46,21 @@ const events: Event[] = [
 
 export default function UpcomingEvents() {
     return (
-        <section className="relative py-24 md:py-32" style={{ backgroundColor: 'var(--color-ink-light)' }}>
-            <SectionReveal className="max-w-5xl mx-auto px-6 lg:px-12">
+        <section className="relative py-28 md:py-36 overflow-hidden" style={{ backgroundColor: 'var(--color-ink)' }}>
+            {/* Subtle background distinction: radial glow */}
+            <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_rgba(56,189,248,0.03)_0%,_transparent_60%)]" />
+
+            <SectionReveal className="relative z-10 max-w-4xl mx-auto px-6 lg:px-10">
                 <div className="flex flex-col items-center text-center mb-16">
                     <RevealItem>
                         <span
-                            className="text-xs tracking-[0.2em] uppercase mb-4 block font-bold"
-                            style={{ fontFamily: 'var(--font-body)', color: 'var(--color-blue-primary)' }}
+                            className="inline-block px-4 py-1.5 rounded-full text-[11px] tracking-[0.15em] uppercase mb-5 font-semibold"
+                            style={{
+                                fontFamily: 'var(--font-body)',
+                                color: 'var(--color-blue-primary)',
+                                backgroundColor: 'rgba(56, 189, 248, 0.08)',
+                                border: '1px solid rgba(56, 189, 248, 0.15)'
+                            }}
                         >
                             Schedule
                         </span>
@@ -58,7 +68,7 @@ export default function UpcomingEvents() {
 
                     <RevealItem>
                         <h2
-                            className="text-4xl md:text-5xl font-bold tracking-tight leading-tight"
+                            className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight"
                             style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
                         >
                             Upcoming Events
@@ -66,74 +76,85 @@ export default function UpcomingEvents() {
                     </RevealItem>
                 </div>
 
+                {/* Vertical timeline layout — distinct from the 3-col project cards */}
                 <div className="relative">
-                    {/* Vertical Line */}
-                    <div className="absolute left-[24px] md:left-[50%] top-0 bottom-0 w-px" style={{ backgroundColor: 'var(--color-border)' }} />
+                    {/* Timeline vertical line */}
+                    <div
+                        className="absolute left-[27px] md:left-[31px] top-4 bottom-4 w-px hidden sm:block"
+                        style={{ backgroundColor: 'var(--color-border)' }}
+                    />
 
-                    <div className="flex flex-col gap-12">
+                    <div className="flex flex-col gap-6">
                         {events.map((event, i) => (
                             <RevealItem key={i}>
-                                <div className={`relative flex flex-col md:flex-row gap-6 md:gap-0 ${i % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
-
-                                    {/* Date Bubble (Center) */}
-                                    <div className="absolute left-[24px] md:left-[50%] top-0 -translate-x-1/2 z-20 flex flex-col items-center justify-center w-12 h-12 rounded-full border-4"
-                                        style={{
-                                            borderColor: 'var(--color-ink-light)',
-                                            backgroundColor: 'var(--color-blue-primary)',
-                                            color: '#0F1B2D'
-                                        }}>
-                                        <span className="text-[10px] font-bold">{event.dateMonth}</span>
-                                    </div>
-
-                                    {/* Content Card (Side) */}
-                                    <div className="flex-1 md:w-[50%] pl-16 md:pl-0">
-                                        <div className={`
-                                            p-8 rounded-2xl border transition-all duration-300 hover:shadow-lg hover:-translate-y-1
-                                            ${i % 2 === 0 ? 'md:ml-auto md:mr-12' : 'md:ml-12 md:mr-auto'}
-                                        `}
+                                <div className="group flex gap-6 items-start">
+                                    {/* Date node */}
+                                    <div className="flex-shrink-0 relative z-10 hidden sm:flex flex-col items-center">
+                                        <div
+                                            className="w-[56px] h-[56px] rounded-xl flex flex-col items-center justify-center transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(56,189,248,0.15)] group-hover:border-[rgba(56,189,248,0.4)]"
                                             style={{
                                                 backgroundColor: 'var(--color-surface)',
-                                                borderColor: 'var(--color-border)'
+                                                border: '1px solid var(--color-border)'
                                             }}
                                         >
-                                            <div className="flex items-center gap-3 mb-4">
-                                                <span
-                                                    className="text-3xl font-bold"
-                                                    style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-blue-primary)' }}
-                                                >
-                                                    {event.dateDay}
-                                                </span>
-                                            </div>
-
-                                            <h3
-                                                className="text-xl font-bold mb-2 tracking-tight"
+                                            <span
+                                                className="text-[10px] tracking-[0.1em] uppercase font-bold leading-none"
+                                                style={{ fontFamily: 'var(--font-body)', color: 'var(--color-blue-primary)' }}
+                                            >
+                                                {event.dateMonth}
+                                            </span>
+                                            <span
+                                                className="text-xl font-bold leading-none mt-0.5"
                                                 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
                                             >
-                                                {event.title}
-                                            </h3>
-                                            <p
-                                                className="text-sm leading-relaxed mb-4 opacity-90"
-                                                style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
-                                            >
-                                                {event.description}
-                                            </p>
-                                            <div className="flex flex-wrap gap-4 pt-4 border-t" style={{ borderColor: 'var(--color-border)' }}>
-                                                <span
-                                                    className="text-xs font-semibold tracking-wide flex items-center gap-1"
-                                                    style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
-                                                >
-                                                    🕒 {event.time}
-                                                </span>
-                                                <span
-                                                    className="text-xs font-semibold tracking-wide flex items-center gap-1"
-                                                    style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
-                                                >
-                                                    📍 {event.location}
-                                                </span>
-                                            </div>
+                                                {event.dateDay}
+                                            </span>
                                         </div>
                                     </div>
 
+                                    {/* Content card */}
+                                    <div
+                                        className="flex-1 rounded-2xl border p-6 md:p-7 transition-all duration-300 group-hover:border-[rgba(56,189,248,0.2)] group-hover:shadow-[0_0_30px_rgba(56,189,248,0.04)] group-hover:-translate-y-0.5"
+                                        style={{
+                                            backgroundColor: 'var(--color-surface)',
+                                            borderColor: 'var(--color-border)'
+                                        }}
+                                    >
+                                        {/* Mobile date */}
+                                        <div className="sm:hidden flex items-center gap-2 mb-3">
+                                            <span className="text-[10px] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--color-blue-primary)' }}>
+                                                {event.dateMonth} {event.dateDay}
+                                            </span>
+                                        </div>
+
+                                        <h3
+                                            className="text-lg font-bold mb-2 tracking-tight group-hover:text-[var(--color-blue-primary)] transition-colors"
+                                            style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+                                        >
+                                            {event.title}
+                                        </h3>
+                                        <p
+                                            className="text-sm leading-relaxed mb-5"
+                                            style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
+                                        >
+                                            {event.description}
+                                        </p>
+
+                                        <div className="flex flex-wrap items-center gap-5">
+                                            <span
+                                                className="text-[11px] font-medium flex items-center gap-1.5"
+                                                style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
+                                            >
+                                                <Clock size={12} className="opacity-50" /> {event.time}
+                                            </span>
+                                            <span
+                                                className="text-[11px] font-medium flex items-center gap-1.5"
+                                                style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
+                                            >
+                                                <MapPin size={12} className="opacity-50" /> {event.location}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </RevealItem>
                         ))}
@@ -141,20 +162,24 @@ export default function UpcomingEvents() {
                 </div>
 
                 <RevealItem>
-                    <div className="text-center mt-16">
+                    <div className="text-center mt-14">
                         <Link
                             href="/events"
-                            className="inline-flex items-center justify-center px-8 py-3 rounded-full text-sm font-bold tracking-wide transition-all hover:bg-[var(--color-surface)] border"
+                            className="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full text-[13px] font-semibold tracking-wide transition-all border hover:bg-[var(--color-surface)]"
                             style={{
                                 borderColor: 'var(--color-border)',
                                 color: 'var(--color-text-primary)'
                             }}
                         >
-                            View Full Calendar
+                            View Full Calendar <ArrowRight size={14} />
                         </Link>
                     </div>
                 </RevealItem>
             </SectionReveal>
+
+            <div className="absolute bottom-0 left-0 right-0 opacity-60">
+                <EEGWaveform height={40} opacity={0.06} />
+            </div>
         </section>
     );
 }

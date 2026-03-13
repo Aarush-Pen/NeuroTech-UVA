@@ -2,7 +2,6 @@
 
 import React from 'react';
 import SectionReveal, { RevealItem } from '@/components/SectionReveal';
-import { motion } from 'framer-motion';
 
 const phases = [
     {
@@ -30,47 +29,69 @@ const phases = [
 
 export default function Timeline() {
     return (
-        <section className="py-24 border-y relative" style={{ backgroundColor: 'var(--color-ink-light)', borderColor: 'var(--color-border)' }}>
-            <SectionReveal className="max-w-7xl mx-auto px-6 overflow-x-auto">
-                <div className="flex flex-col md:flex-row gap-8 md:gap-0 relative">
-                    {/* Connecting Line (Desktop) */}
-                    <div className="hidden md:block absolute top-[60px] left-0 right-0 h-px z-0" style={{ backgroundColor: 'var(--color-border)' }} />
+        <section className="py-28 md:py-32 border-y relative" style={{ backgroundColor: 'var(--color-ink-light)', borderColor: 'var(--color-border)' }}>
+            <SectionReveal className="max-w-4xl mx-auto px-6 lg:px-10">
+                <RevealItem className="text-center mb-12">
+                    <span
+                        className="inline-block px-4 py-1.5 rounded-full text-[11px] tracking-[0.15em] uppercase mb-4 font-semibold"
+                        style={{
+                            fontFamily: 'var(--font-body)',
+                            color: 'var(--color-blue-primary)',
+                            backgroundColor: 'rgba(56, 189, 248, 0.08)',
+                            border: '1px solid rgba(56, 189, 248, 0.15)'
+                        }}
+                    >
+                        Roadmap
+                    </span>
+                    <h2
+                        className="text-2xl md:text-3xl font-bold tracking-tight"
+                        style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+                    >
+                        Our Growth Journey
+                    </h2>
+                </RevealItem>
 
-                    {phases.map((phase, i) => (
-                        <div key={phase.phase} className="flex-1 relative z-10 min-w-[300px]">
-                            <RevealItem className="h-full flex flex-col p-6 md:p-8 border-l md:border-l-0 md:border-t-0 hover:bg-[var(--color-surface)]/50 transition-colors rounded-lg"
-                                style={{ borderColor: 'var(--color-border)' }}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {phases.map((phase) => (
+                        <RevealItem key={phase.phase}>
+                            <div
+                                className={`group rounded-2xl p-7 h-full border transition-all duration-300 hover:-translate-y-1 ${phase.status === 'active'
+                                    ? 'hover:border-[var(--color-blue-primary)]/30 hover:shadow-[0_0_40px_rgba(56,189,248,0.06)]'
+                                    : 'hover:border-[var(--color-border)]'
+                                    }`}
+                                style={{
+                                    backgroundColor: 'var(--color-surface)',
+                                    borderColor: phase.status === 'active' ? 'rgba(56, 189, 248, 0.2)' : 'var(--color-border)'
+                                }}
                             >
-                                <div className="flex items-center justify-between mb-6">
-                                    <span
-                                        className="text-6xl font-black opacity-20"
+                                <div className="flex items-center justify-between mb-5">
+                                    <div
+                                        className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold"
                                         style={{
-                                            fontFamily: 'var(--font-heading)',
-                                            color: phase.status === 'active' ? 'var(--color-blue-primary)' : 'var(--color-text-secondary)',
-                                            opacity: phase.status === 'active' ? 0.4 : 0.2
+                                            backgroundColor: phase.status === 'active' || phase.status === 'completed'
+                                                ? 'rgba(56, 189, 248, 0.1)'
+                                                : 'var(--color-ink)',
+                                            color: phase.status === 'active' || phase.status === 'completed'
+                                                ? 'var(--color-blue-primary)'
+                                                : 'var(--color-text-secondary)',
+                                            border: phase.status === 'active'
+                                                ? '1px solid rgba(56, 189, 248, 0.3)'
+                                                : '1px solid var(--color-border)',
+                                            boxShadow: phase.status === 'active' ? '0 0 12px rgba(56, 189, 248, 0.15)' : 'none'
                                         }}
                                     >
                                         {phase.phase}
-                                    </span>
+                                    </div>
                                     <span
-                                        className="text-xs tracking-widest uppercase font-bold"
+                                        className="text-[10px] tracking-[0.12em] uppercase font-semibold"
                                         style={{ fontFamily: 'var(--font-body)', color: 'var(--color-blue-primary)' }}
                                     >
                                         {phase.year}
                                     </span>
                                 </div>
 
-                                {/* Indicator Dot (Desktop) */}
-                                <div className={`hidden md:block absolute top-[52px] left-8 w-4 h-4 rounded-full border-2 z-20 transition-colors`}
-                                    style={{
-                                        backgroundColor: phase.status === 'active' || phase.status === 'completed' ? 'var(--color-blue-primary)' : 'var(--color-ink)',
-                                        borderColor: phase.status === 'active' || phase.status === 'completed' ? 'var(--color-blue-primary)' : 'var(--color-text-secondary)',
-                                        boxShadow: phase.status === 'active' ? '0 0 15px var(--color-blue-glow)' : 'none'
-                                    }}
-                                />
-
                                 <h3
-                                    className="text-2xl font-bold mb-3"
+                                    className="text-lg font-bold mb-2"
                                     style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
                                 >
                                     {phase.title}
@@ -81,8 +102,8 @@ export default function Timeline() {
                                 >
                                     {phase.description}
                                 </p>
-                            </RevealItem>
-                        </div>
+                            </div>
+                        </RevealItem>
                     ))}
                 </div>
             </SectionReveal>

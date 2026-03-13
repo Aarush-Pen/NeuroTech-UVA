@@ -9,44 +9,28 @@ const footerLinks = [
     { label: 'Projects', href: '/projects' },
     { label: 'Events', href: '/events' },
     { label: 'Resources', href: '/resources' },
-    { label: 'Discord', href: '#' },
+    { label: 'GroupMe', href: 'https://groupme.com/join_group/113177848/ViLRyCBl', external: true },
 ];
-
-function GitHubIcon() {
-    return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-label="GitHub">
-            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-        </svg>
-    );
-}
-
-function DiscordIcon() {
-    return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-label="Discord">
-            <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.947 2.418-2.157 2.418z" />
-        </svg>
-    );
-}
 
 function InstagramIcon() {
     return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-label="Instagram">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-label="Instagram">
             <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
         </svg>
     );
 }
 
-function LinkedInIcon() {
+function GroupMeIcon() {
     return (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-label="LinkedIn">
-            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-label="GroupMe">
+            <path d="M12 2C6.48 2 2 5.58 2 10c0 2.24 1.12 4.27 2.94 5.72-.16.94-.62 2.36-1.82 3.58a.5.5 0 00.36.85c2.09-.04 3.76-.74 4.88-1.4.54.1 1.07.17 1.64.21V19c0-3.87 3.58-7 8-7 .34 0 .67.02 1 .06C18.97 5.57 15.93 2 12 2zm-3 9a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm3 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm3 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
         </svg>
     );
 }
 
 function NTMonogram() {
     return (
-        <svg width="28" height="28" viewBox="0 0 36 36" fill="none" aria-label="NeuroTech monogram">
+        <svg width="24" height="24" viewBox="0 0 36 36" fill="none" aria-label="NeuroTech monogram">
             <circle cx="6" cy="18" r="2.5" fill="var(--color-blue-primary)" opacity="0.8" />
             <circle cx="16" cy="6" r="2" fill="var(--color-blue-primary)" opacity="0.6" />
             <circle cx="16" cy="30" r="2" fill="var(--color-blue-primary)" opacity="0.6" />
@@ -66,23 +50,23 @@ function NTMonogram() {
 
 export default function Footer() {
     return (
-        <footer className="relative" style={{ backgroundColor: 'var(--color-ink-light)' }}>
-            <EEGWaveform height={40} opacity={0.15} reverse />
+        <footer className="relative border-t" style={{ backgroundColor: 'var(--color-ink-light)', borderColor: 'var(--color-border)' }}>
+            <EEGWaveform height={30} opacity={0.08} reverse />
 
-            <div className="max-w-6xl mx-auto px-6 lg:px-12 py-16">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="max-w-5xl mx-auto px-6 lg:px-10 py-14">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                     <div className="md:col-span-1">
-                        <Link href="/" className="flex items-center gap-3 mb-4">
+                        <Link href="/" className="flex items-center gap-2.5 mb-4">
                             <NTMonogram />
                             <span
-                                className="text-sm font-bold tracking-tight"
+                                className="text-sm font-semibold tracking-tight"
                                 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
                             >
-                                NEUROTECH <span style={{ color: 'var(--color-text-secondary)' }}>@</span> UVA
+                                NEUROTECH <span className="opacity-40">@</span> UVA
                             </span>
                         </Link>
                         <p
-                            className="text-sm leading-relaxed"
+                            className="text-[13px] leading-relaxed"
                             style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
                         >
                             A student organization at the University of Virginia.
@@ -91,49 +75,60 @@ export default function Footer() {
 
                     <div className="md:col-span-1">
                         <h4
-                            className="text-[11px] font-bold tracking-widest uppercase mb-4"
+                            className="text-[10px] font-semibold tracking-[0.15em] uppercase mb-4"
                             style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
                         >
                             Navigation
                         </h4>
-                        <nav className="flex flex-col gap-2">
-                            {footerLinks.map((link) => (
-                                <Link
-                                    key={link.label}
-                                    href={link.href}
-                                    className="text-sm font-medium transition-colors duration-200"
-                                    style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-primary)' }}
-                                >
-                                    <span className="hover:text-[var(--color-blue-primary)]">{link.label}</span>
-                                </Link>
-                            ))}
+                        <nav className="flex flex-col gap-2.5">
+                            {footerLinks.map((link) =>
+                                link.external ? (
+                                    <a
+                                        key={link.label}
+                                        href={link.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-[13px] font-medium transition-colors duration-200 hover:text-[var(--color-blue-primary)]"
+                                        style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-primary)' }}
+                                    >
+                                        {link.label}
+                                    </a>
+                                ) : (
+                                    <Link
+                                        key={link.label}
+                                        href={link.href}
+                                        className="text-[13px] font-medium transition-colors duration-200 hover:text-[var(--color-blue-primary)]"
+                                        style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-primary)' }}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                )
+                            )}
                         </nav>
                     </div>
 
                     <div className="md:col-span-1">
                         <h4
-                            className="text-[11px] font-bold tracking-widest uppercase mb-4"
+                            className="text-[10px] font-semibold tracking-[0.15em] uppercase mb-4"
                             style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
                         >
                             Connect
                         </h4>
                         <div className="flex gap-4">
                             {[
-                                { Icon: GitHubIcon, label: 'GitHub', href: '#' },
-                                { Icon: DiscordIcon, label: 'Discord', href: '#' },
-                                { Icon: InstagramIcon, label: 'Instagram', href: '#' },
-                                { Icon: LinkedInIcon, label: 'LinkedIn', href: '#' },
+                                { Icon: InstagramIcon, label: 'Instagram', href: 'https://www.instagram.com/neurotechatuva?igsh=MTlrZWgwZ2hwNHk5MQ==' },
+                                { Icon: GroupMeIcon, label: 'GroupMe', href: 'https://groupme.com/join_group/113177848/ViLRyCBl' },
                             ].map(({ Icon, label, href }) => (
                                 <a
                                     key={label}
                                     href={href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     aria-label={label}
-                                    className="transition-colors duration-200"
+                                    className="w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 hover:bg-[var(--color-surface)] hover:text-[var(--color-blue-primary)]"
                                     style={{ color: 'var(--color-text-secondary)' }}
                                 >
-                                    <span className="hover:text-[var(--color-blue-primary)]">
-                                        <Icon />
-                                    </span>
+                                    <Icon />
                                 </a>
                             ))}
                         </div>
@@ -143,7 +138,7 @@ export default function Footer() {
                 <div className="mt-12 pt-6 border-t" style={{ borderColor: 'var(--color-border)' }}>
                     <p
                         className="text-[11px] tracking-wide text-center"
-                        style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)', opacity: 0.6 }}
+                        style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)', opacity: 0.5 }}
                     >
                         © {new Date().getFullYear()} NeuroTech @ UVA. All rights reserved.
                     </p>

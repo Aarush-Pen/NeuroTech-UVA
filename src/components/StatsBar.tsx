@@ -2,7 +2,7 @@
 
 import React from 'react';
 import SectionReveal, { RevealItem } from './SectionReveal';
-import CountUp from './CountUp'; // Use our custom count up component or direct implementation
+import CountUp from './CountUp';
 
 export default function StatsBar() {
     const stats = [
@@ -13,23 +13,23 @@ export default function StatsBar() {
     ];
 
     return (
-        <section className="py-12 border-y" style={{
+        <section className="py-16 border-y" style={{
             backgroundColor: 'var(--color-ink-light)',
             borderColor: 'var(--color-border)'
         }}>
-            <SectionReveal className="max-w-7xl mx-auto px-6 lg:px-12">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+            <SectionReveal className="max-w-5xl mx-auto px-6 lg:px-10">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-16">
                     {stats.map((stat, i) => (
                         <RevealItem key={i}>
-                            <div className="flex flex-col items-center md:items-start">
+                            <div className="flex flex-col items-center text-center">
                                 <span
-                                    className="text-4xl md:text-5xl font-bold mb-2 blue-glow"
-                                    style={{ fontFamily: 'var(--font-body)', color: 'var(--color-blue-primary)' }}
+                                    className="text-4xl md:text-5xl font-bold mb-2"
+                                    style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-blue-primary)' }}
                                 >
                                     {stat.value}
                                 </span>
                                 <span
-                                    className="text-sm tracking-widest uppercase font-bold"
+                                    className="text-[11px] tracking-[0.15em] uppercase font-semibold"
                                     style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
                                 >
                                     {stat.label}

@@ -23,35 +23,58 @@ const values = [
 
 export default function Values() {
     return (
-        <section className="py-24 bg-[#080C14]">
-            <SectionReveal className="max-w-7xl mx-auto px-6 lg:px-12">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <section className="py-24" style={{ backgroundColor: 'var(--color-ink-light)' }}>
+            <SectionReveal className="max-w-4xl mx-auto px-6 lg:px-10">
+                <RevealItem className="text-center mb-12">
+                    <span
+                        className="inline-block px-4 py-1.5 rounded-full text-[11px] tracking-[0.15em] uppercase mb-4 font-semibold"
+                        style={{
+                            fontFamily: 'var(--font-body)',
+                            color: 'var(--color-blue-primary)',
+                            backgroundColor: 'rgba(56, 189, 248, 0.08)',
+                            border: '1px solid rgba(56, 189, 248, 0.15)'
+                        }}
+                    >
+                        Principles
+                    </span>
+                    <h2
+                        className="text-2xl md:text-3xl font-bold"
+                        style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+                    >
+                        What We Stand For
+                    </h2>
+                </RevealItem>
+
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     {values.map((value) => (
                         <RevealItem key={value.id}>
-                            <div className="relative pl-8 border-l-2 border-[#1E2D45] hover:border-[var(--color-blue-primary)] transition-colors duration-300 group flex gap-6">
-                                <span
-                                    className="absolute -left-[3px] top-0 w-[4px] h-0 bg-[var(--color-blue-primary)] group-hover:h-full transition-all duration-300 ease-in-out"
-                                />
-                                <span
-                                    className="text-5xl font-black text-[#1E2D45] opacity-50 shrink-0 group-hover:text-[var(--color-blue-primary)]/20 transition-colors leading-none pt-1"
-                                    style={{ fontFamily: 'var(--font-heading)' }}
+                            <div className="group rounded-2xl p-7 border transition-all duration-300 hover:border-[var(--color-blue-primary)]/30 hover:-translate-y-1 h-full"
+                                style={{
+                                    backgroundColor: 'var(--color-surface)',
+                                    borderColor: 'var(--color-border)'
+                                }}>
+                                <div
+                                    className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold mb-5"
+                                    style={{
+                                        backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                                        color: 'var(--color-blue-primary)',
+                                        border: '1px solid rgba(56, 189, 248, 0.2)'
+                                    }}
                                 >
                                     {value.id}
-                                </span>
-                                <div>
-                                    <h3
-                                        className="text-[var(--color-text-primary)] text-2xl font-bold mb-3"
-                                        style={{ fontFamily: 'var(--font-heading)' }}
-                                    >
-                                        {value.title}
-                                    </h3>
-                                    <p
-                                        className="text-[var(--color-text-secondary)] text-base leading-relaxed"
-                                        style={{ fontFamily: 'var(--font-body)' }}
-                                    >
-                                        {value.description}
-                                    </p>
                                 </div>
+                                <h3
+                                    className="text-lg font-bold mb-2 group-hover:text-[var(--color-blue-primary)] transition-colors"
+                                    style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+                                >
+                                    {value.title}
+                                </h3>
+                                <p
+                                    className="text-sm leading-relaxed"
+                                    style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
+                                >
+                                    {value.description}
+                                </p>
                             </div>
                         </RevealItem>
                     ))}

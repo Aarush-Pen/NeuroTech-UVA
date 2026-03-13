@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import SectionReveal, { RevealItem } from '@/components/SectionReveal';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Download, ExternalLink } from 'lucide-react';
+import { Search, ExternalLink } from 'lucide-react';
 
 const categories = ['All', 'Hardware', 'Software', 'Datasets', 'Tutorials'];
 
@@ -64,22 +64,22 @@ export default function ResourceGrid() {
     });
 
     return (
-        <section className="py-24 min-h-screen" style={{ backgroundColor: 'var(--color-ink)' }}>
-            <SectionReveal className="max-w-7xl mx-auto px-6 lg:px-12">
+        <section className="py-28 min-h-screen" style={{ backgroundColor: 'var(--color-ink)' }}>
+            <SectionReveal className="max-w-5xl mx-auto px-6 lg:px-10">
 
                 {/* Controls */}
-                <RevealItem className="mb-12 flex flex-col md:flex-row justify-between items-center gap-6">
+                <RevealItem className="mb-10 flex flex-col md:flex-row justify-between items-center gap-6">
                     {/* Categories */}
                     <div className="flex flex-wrap gap-2 justify-center md:justify-start">
                         {categories.map(cat => (
                             <button
                                 key={cat}
                                 onClick={() => setActiveCategory(cat)}
-                                className={`px-4 py-2 rounded-full text-xs font-bold tracking-wide uppercase transition-all duration-200 border`}
+                                className="px-4 py-2 rounded-full text-[11px] font-semibold tracking-wide uppercase transition-all duration-200 border"
                                 style={{
                                     fontFamily: 'var(--font-body)',
                                     backgroundColor: activeCategory === cat ? 'var(--color-blue-primary)' : 'transparent',
-                                    color: activeCategory === cat ? '#0F1B2D' : 'var(--color-text-secondary)',
+                                    color: activeCategory === cat ? '#08090F' : 'var(--color-text-secondary)',
                                     borderColor: activeCategory === cat ? 'var(--color-blue-primary)' : 'var(--color-border)'
                                 }}
                             >
@@ -90,13 +90,13 @@ export default function ResourceGrid() {
 
                     {/* Search */}
                     <div className="relative w-full md:w-64">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2" size={16} style={{ color: 'var(--color-text-secondary)' }} />
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 opacity-40" size={15} style={{ color: 'var(--color-text-secondary)' }} />
                         <input
                             type="text"
                             placeholder="Search resources..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-[var(--color-blue-primary)] transition-colors border"
+                            className="w-full rounded-full py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:border-[var(--color-blue-primary)] transition-colors border"
                             style={{
                                 fontFamily: 'var(--font-body)',
                                 backgroundColor: 'var(--color-surface)',
@@ -107,51 +107,54 @@ export default function ResourceGrid() {
                     </div>
                 </RevealItem>
 
-                {/* List Layout */}
+                {/* Resource Cards */}
                 <motion.div layout className="flex flex-col gap-4">
                     <AnimatePresence>
                         {filteredResources.map((res) => (
                             <motion.div
                                 layout
-                                initial={{ opacity: 0, scale: 0.98, y: 10 }}
-                                animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.98, y: -10 }}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
                                 transition={{ duration: 0.2 }}
                                 key={res.title}
                                 onClick={() => window.open(res.link, '_blank')}
-                                className="group border-[color:var(--color-border)] hover:border-[color:var(--color-blue-primary)] border p-5 md:p-6 rounded-lg transition-all hover:shadow-md flex flex-col md:flex-row md:items-center gap-4 md:gap-8 cursor-pointer"
+                                className="group border rounded-2xl p-6 md:p-7 transition-all hover:border-[var(--color-blue-primary)]/30 hover:shadow-[0_0_40px_rgba(56,189,248,0.06)] flex flex-col md:flex-row md:items-center gap-4 md:gap-8 cursor-pointer"
                                 style={{
-                                    backgroundColor: 'var(--color-surface)'
+                                    backgroundColor: 'var(--color-surface)',
+                                    borderColor: 'var(--color-border)'
                                 }}
                             >
-                                {/* Left Section: Category Icon/Badge */}
-                                <div className="flex-shrink-0 w-32 hidden md:block">
+                                {/* Category Badge */}
+                                <div className="flex-shrink-0 w-28 hidden md:block">
                                     <span
-                                        className="text-[10px] tracking-widest uppercase px-2.5 py-1.5 rounded font-bold"
+                                        className="px-3 py-1 rounded-full text-[10px] tracking-[0.12em] uppercase font-semibold"
                                         style={{
                                             fontFamily: 'var(--font-body)',
-                                            backgroundColor: 'var(--color-ink)',
-                                            color: 'var(--color-blue-primary)'
+                                            backgroundColor: 'rgba(56, 189, 248, 0.08)',
+                                            color: 'var(--color-blue-primary)',
+                                            border: '1px solid rgba(56, 189, 248, 0.15)'
                                         }}
                                     >
                                         {res.category}
                                     </span>
                                 </div>
 
-                                {/* Middle Section: Content */}
+                                {/* Content */}
                                 <div className="flex-grow">
                                     <div className="flex items-center gap-3 mb-1">
                                         <span
-                                            className="md:hidden text-[10px] tracking-widest uppercase px-2 py-0.5 rounded font-bold"
+                                            className="md:hidden px-3 py-1 rounded-full text-[10px] tracking-wider uppercase font-semibold"
                                             style={{
                                                 fontFamily: 'var(--font-body)',
-                                                backgroundColor: 'var(--color-ink)',
-                                                color: 'var(--color-blue-primary)'
+                                                backgroundColor: 'rgba(56, 189, 248, 0.08)',
+                                                color: 'var(--color-blue-primary)',
+                                                border: '1px solid rgba(56, 189, 248, 0.15)'
                                             }}
                                         >
                                             {res.category}
                                         </span>
-                                        <h3 className="text-lg md:text-xl font-bold group-hover:text-[var(--color-blue-primary)] transition-colors" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}>
+                                        <h3 className="text-base md:text-lg font-bold group-hover:text-[var(--color-blue-primary)] transition-colors" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}>
                                             {res.title}
                                         </h3>
                                     </div>
@@ -160,16 +163,16 @@ export default function ResourceGrid() {
                                     </p>
                                 </div>
 
-                                {/* Right Section: Action */}
+                                {/* Action */}
                                 <div className="flex-shrink-0 flex items-center justify-between md:justify-end gap-4 mt-2 md:mt-0">
-                                    <span className="md:hidden text-xs font-bold uppercase tracking-wide group-hover:text-[var(--color-blue-primary)] transition-colors" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-primary)' }}>
+                                    <span className="md:hidden text-xs font-semibold uppercase tracking-wide group-hover:text-[var(--color-blue-primary)] transition-colors" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-primary)' }}>
                                         Access Resource
                                     </span>
                                     <div
-                                        className="w-10 h-10 rounded-full flex items-center justify-center transition-colors group-hover:bg-[var(--color-blue-primary)] group-hover:text-[#0F1B2D]"
-                                        style={{ backgroundColor: 'var(--color-ink)', color: 'var(--color-text-secondary)' }}
+                                        className="w-10 h-10 rounded-full flex items-center justify-center transition-all group-hover:bg-[var(--color-blue-primary)] group-hover:text-[#08090F]"
+                                        style={{ backgroundColor: 'var(--color-ink)', color: 'var(--color-text-secondary)', border: '1px solid var(--color-border)' }}
                                     >
-                                        <ExternalLink size={18} />
+                                        <ExternalLink size={16} />
                                     </div>
                                 </div>
                             </motion.div>
@@ -179,7 +182,7 @@ export default function ResourceGrid() {
 
                 {filteredResources.length === 0 && (
                     <div className="text-center py-24">
-                        <p className="italic" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}>No resources found matching your criteria.</p>
+                        <p className="text-sm" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}>No resources found matching your criteria.</p>
                     </div>
                 )}
             </SectionReveal>
