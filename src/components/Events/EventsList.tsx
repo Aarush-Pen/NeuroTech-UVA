@@ -5,100 +5,19 @@ import SectionReveal, { RevealItem } from '@/components/SectionReveal';
 import { ChevronDown, ChevronUp, CalendarX, Clock, MapPin, X, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-interface Event {
-    id: string;
-    date: Date;
-    title: string;
-    description: string;
-    time: string;
-    location: string;
-    type: string;
-}
+import { SanityEvent, SanityGeneralMeeting } from '@/sanity/types';
 
 const MONTH_NAMES = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
-const getMonthDay = (date: Date) => {
+const getMonthDay = (dateString: string) => {
+    const date = new Date(dateString);
     const month = MONTH_NAMES[date.getMonth()];
     const day = date.getDate().toString().padStart(2, '0');
-    return { month, day };
+    return { month, day, year: date.getFullYear(), dateObj: date };
 };
+function GeneralMeetingCard({ meeting }: { meeting: SanityGeneralMeeting | null }) {
+    if (!meeting) return null;
 
-const allEvents: Event[] = [
-    {
-        id: '1',
-        date: new Date('2026-02-22T18:00:00'),
-        title: 'Intro to EEG Signal Processing',
-        description: 'Hands-on workshop covering the fundamentals of EEG data acquisition, preprocessing, and spectral analysis using Python and MNE.',
-        time: '6:00 PM EST',
-        location: 'Rice Hall 340',
-        type: 'Workshop'
-    },
-    {
-        id: '2',
-        date: new Date('2026-03-08T17:30:00'),
-        title: 'BCI Demo Day',
-        description: 'Live demonstrations of our brain-computer interface projects, including real-time motor imagery control and P300 speller systems.',
-        time: '5:30 PM EST',
-        location: 'Thornton Hall E316',
-        type: 'Social'
-    },
-    {
-        id: '3',
-        date: new Date('2026-03-22T16:00:00'),
-        title: 'Neural Hardware Design Sprint',
-        description: 'A collaborative design session focused on custom electrode arrays and signal amplification circuits for affordable BCI hardware.',
-        time: '4:00 PM EST',
-        location: 'Lind-MakerSpace',
-        type: 'Hackathon'
-    },
-    {
-        id: '4',
-        date: new Date('2026-04-05T18:30:00'),
-        title: 'Guest Lecture: Dr. Smith on Neuralink',
-        description: 'Dr. Smith joins us to discuss the latest advancements in invasive BCI technology and the future of neural interfaces.',
-        time: '6:30 PM EST',
-        location: 'Rice Hall Auditorium',
-        type: 'Speaker'
-    },
-    {
-        id: '5',
-        date: new Date('2026-02-10T18:00:00'),
-        title: 'Spring Kickoff Meeting',
-        description: 'Welcoming new members and outlining the semester roadmap for all research tracks.',
-        time: '6:00 PM EST',
-        location: 'Rice Hall 130',
-        type: 'Social'
-    },
-    {
-        id: '6',
-        date: new Date('2025-11-15T09:00:00'),
-        title: 'NeuroTechX Hackathon 2025',
-        description: 'Developed a gaze-controlled keyboard. 2nd Place Winner.',
-        time: '9:00 AM EST',
-        location: 'Remote',
-        type: 'Hackathon'
-    },
-    {
-        id: '7',
-        date: new Date('2025-04-10T17:00:00'),
-        title: 'Python for Neuroscience Workshop',
-        description: 'Introductory series on using NumPy, Pandas, and SciPy for neural data analysis.',
-        time: '5:00 PM EST',
-        location: 'Olsson Hall',
-        type: 'Workshop'
-    },
-    {
-        id: '8',
-        date: new Date('2025-02-20T18:00:00'),
-        title: 'Careers in Neurotech Panel',
-        description: 'Featuring alumni from Neurable, Kernel, and Neuralink.',
-        time: '6:00 PM EST',
-        location: 'Newcomb Hall',
-        type: 'Speaker'
-    }
-];
-
-function GeneralMeetingCard() {
     return (
         <div className="md:col-span-2">
             <div
@@ -128,17 +47,17 @@ function GeneralMeetingCard() {
                     </h3>
                     <div className="flex flex-wrap gap-5">
                         <span className="text-sm font-semibold flex items-center gap-2" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-blue-primary)' }}>
-                            <Clock size={16} /> Every Monday · 7:00 PM
+                            <Clock size={16} /> {meeting.dayTime}
                         </span>
                         <span className="text-sm font-semibold flex items-center gap-2" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-blue-primary)' }}>
-                            <MapPin size={16} /> Clark Hall
+                            <MapPin size={16} /> {meeting.location}
                         </span>
                     </div>
                 </div>
 
                 <div className="border-t pt-5" style={{ borderColor: 'var(--color-border)' }}>
                     <p className="text-sm leading-relaxed" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}>
-                        We meet every Monday to explore the latest in neurotechnology — from brain-computer interfaces to neural signal processing. All experience levels welcome.
+                        {meeting.description}
                     </p>
                 </div>
             </div>
@@ -146,7 +65,7 @@ function GeneralMeetingCard() {
     );
 }
 
-function EventCard({ event, isPast = false }: { event: Event, isPast?: boolean }) {
+function EventCard({ event, isPast = false }: { event: SanityEvent, isPast?: boolean }) {
     const { month, day } = getMonthDay(event.date);
     const [expanded, setExpanded] = useState(false);
 
@@ -284,9 +203,8 @@ function EventCard({ event, isPast = false }: { event: Event, isPast?: boolean }
     );
 }
 
-function PastEventCard({ event }: { event: Event }) {
-    const { month, day } = getMonthDay(event.date);
-    const year = event.date.getFullYear();
+function PastEventCard({ event }: { event: SanityEvent }) {
+    const { month, day, year } = getMonthDay(event.date);
     const [expanded, setExpanded] = useState(false);
 
     return (
@@ -381,21 +299,23 @@ function PastEventCard({ event }: { event: Event }) {
     );
 }
 
-export default function EventsList() {
-    const today = new Date('2026-02-17T00:00:00');
+export default function EventsList({ initialEvents = [], generalMeeting }: { initialEvents?: SanityEvent[], generalMeeting?: SanityGeneralMeeting }) {
+    const today = new Date();
+    // Start of current day
+    today.setHours(0, 0, 0, 0);
     const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
 
-    const upcomingEvents = allEvents
-        .filter(e => e.date >= today)
-        .sort((a, b) => a.date.getTime() - b.date.getTime());
+    const upcomingEvents = initialEvents
+        .filter(e => !e.isArchived && new Date(e.date) >= today)
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-    const recentPastEvents = allEvents
-        .filter(e => e.date < today && e.date >= thirtyDaysAgo)
-        .sort((a, b) => b.date.getTime() - a.date.getTime());
+    const recentPastEvents = initialEvents
+        .filter(e => !e.isArchived && new Date(e.date) < today && new Date(e.date) >= thirtyDaysAgo)
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-    const archiveEvents = allEvents
-        .filter(e => e.date < thirtyDaysAgo)
-        .sort((a, b) => b.date.getTime() - a.date.getTime());
+    const archiveEvents = initialEvents
+        .filter(e => e.isArchived || new Date(e.date) < thirtyDaysAgo)
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     const mainList = [...upcomingEvents, ...recentPastEvents];
 
@@ -416,13 +336,13 @@ export default function EventsList() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     {/* General Meeting — always pinned at top, spans full width */}
                     <RevealItem className="md:col-span-2">
-                        <GeneralMeetingCard />
+                        <GeneralMeetingCard meeting={generalMeeting || null} />
                     </RevealItem>
 
                     {mainList.length > 0 ? (
                         mainList.map(event => (
-                            <RevealItem key={event.id}>
-                                <EventCard event={event} isPast={event.date < today} />
+                            <RevealItem key={event._id}>
+                                <EventCard event={event} isPast={new Date(event.date) < today} />
                             </RevealItem>
                         ))
                     ) : (
@@ -469,7 +389,7 @@ export default function EventsList() {
                                 >
                                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                         {archiveEvents.map(event => (
-                                            <PastEventCard key={event.id} event={event} />
+                                            <PastEventCard key={event._id} event={event} />
                                         ))}
                                     </div>
                                 </motion.div>

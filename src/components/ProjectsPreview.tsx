@@ -4,43 +4,9 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import SectionReveal, { RevealItem } from './SectionReveal';
 import { ArrowRight } from 'lucide-react';
+import { SanityProject } from '@/sanity/types';
 
-interface Project {
-    name: string;
-    slug: string;
-    description: string;
-    tags: string[];
-    status: string;
-}
-
-const projects: Project[] = [
-    {
-        name: 'Cortex BCI Pipeline',
-        slug: 'cortex-bci',
-        description:
-            'Real-time brain-computer interface processing pipeline for motor imagery classification using EEG signals.',
-        tags: ['α', 'EEG', 'Python', 'BCI'],
-        status: 'Active Research',
-    },
-    {
-        name: 'Neural Signal Decoder',
-        slug: 'neural-decoder',
-        description:
-            'Deep learning model for decoding neural patterns from non-invasive EEG recordings with >85% classification accuracy.',
-        tags: ['β', 'ML', 'PyTorch', 'Signal'],
-        status: 'Active Research',
-    },
-    {
-        name: 'OpenBCI Hardware Lab',
-        slug: 'openbci-hardware',
-        description:
-            'Custom electrode array design and signal acquisition hardware for affordable neuroscience research.',
-        tags: ['θ', 'Hardware', 'Arduino', 'PCB'],
-        status: 'Active Research',
-    },
-];
-
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ project }: { project: SanityProject }) {
     return (
         <RevealItem>
             <Link href={`/projects#${project.slug}`}>
@@ -77,8 +43,8 @@ function ProjectCard({ project }: { project: Project }) {
                         {project.description}
                     </p>
 
-                    <div className="flex flex-wrap gap-2">
-                        {project.tags.map((tag) => (
+                    <div className="flex flex-wrap gap-2 mt-auto">
+                        {project.tags?.map((tag) => (
                             <span
                                 key={tag}
                                 className="px-3 py-1 text-[10px] font-semibold tracking-wider uppercase rounded-full"
@@ -99,7 +65,9 @@ function ProjectCard({ project }: { project: Project }) {
     );
 }
 
-export default function ProjectsPreview() {
+export default function ProjectsPreview({ projects = [] }: { projects?: SanityProject[] }) {
+    const topProjects = projects.slice(0, 3);
+    
     return (
         <section className="relative py-28 md:py-36" style={{ backgroundColor: 'var(--color-ink-light)' }}>
             <SectionReveal className="max-w-5xl mx-auto px-6 lg:px-10">
@@ -141,8 +109,8 @@ export default function ProjectsPreview() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                    {projects.map((project) => (
-                        <ProjectCard key={project.name} project={project} />
+                    {topProjects.map((project) => (
+                        <ProjectCard key={project._id} project={project} />
                     ))}
                 </div>
             </SectionReveal>

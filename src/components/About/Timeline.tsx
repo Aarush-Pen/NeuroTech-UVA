@@ -3,31 +3,9 @@
 import React from 'react';
 import SectionReveal, { RevealItem } from '@/components/SectionReveal';
 
-const phases = [
-    {
-        phase: '01',
-        title: 'Foundation',
-        year: '2024',
-        description: 'Establishing the core team, defining our research pillars, and building initial hardware prototypes for EEG acquisition.',
-        status: 'completed'
-    },
-    {
-        phase: '02',
-        title: 'Research Expansion',
-        year: '2025',
-        description: 'Launching 3 distinct R&D tracks, partnering with UVA neuroscience labs, and hosting our first hackathon.',
-        status: 'active'
-    },
-    {
-        phase: '03',
-        title: 'Publication & Impact',
-        year: '2026',
-        description: 'Publishing findings in undergraduate journals, open-sourcing our BCI stack, and expanding community outreach.',
-        status: 'future'
-    }
-];
+import { SanityTimelinePhase } from '@/sanity/types';
 
-export default function Timeline() {
+export default function Timeline({ phases = [] }: { phases?: SanityTimelinePhase[] }) {
     return (
         <section className="py-28 md:py-32 border-y relative" style={{ backgroundColor: 'var(--color-ink-light)', borderColor: 'var(--color-border)' }}>
             <SectionReveal className="max-w-4xl mx-auto px-6 lg:px-10">
@@ -53,7 +31,7 @@ export default function Timeline() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {phases.map((phase) => (
-                        <RevealItem key={phase.phase}>
+                        <RevealItem key={phase._id}>
                             <div
                                 className={`group rounded-2xl p-7 h-full border transition-all duration-300 hover:-translate-y-1 ${phase.status === 'active'
                                     ? 'hover:border-[var(--color-blue-primary)]/30 hover:shadow-[0_0_40px_rgba(56,189,248,0.06)]'

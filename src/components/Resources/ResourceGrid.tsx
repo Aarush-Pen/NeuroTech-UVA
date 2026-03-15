@@ -5,54 +5,11 @@ import SectionReveal, { RevealItem } from '@/components/SectionReveal';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, ExternalLink } from 'lucide-react';
 
+import { SanityResource } from '@/sanity/types';
+
 const categories = ['All', 'Hardware', 'Software', 'Datasets', 'Tutorials'];
 
-const resources = [
-    {
-        title: 'OpenBCI Cyton Guide',
-        category: 'Hardware',
-        description: 'Comprehensive setup and troubleshooting guide for the 8-channel Cyton biosensing board.',
-        link: '#',
-        type: 'guide'
-    },
-    {
-        title: 'MNE-Python Cheatsheet',
-        category: 'Software',
-        description: 'Quick reference for common EEG processing pipelines: filtering, epoching, and ICA.',
-        link: '#',
-        type: 'repo'
-    },
-    {
-        title: 'Motor Imagery Dataset',
-        category: 'Datasets',
-        description: 'Cleaned 64-channel EEG recordings from 20 subjects performing left/right hand motor imagery.',
-        link: '#',
-        type: 'download'
-    },
-    {
-        title: 'Muse 2 Streaming Script',
-        category: 'Software',
-        description: 'Python script to stream raw EEG data from Muse 2 headsets via LSL.',
-        link: '#',
-        type: 'repo'
-    },
-    {
-        title: 'Introduction to BCI',
-        category: 'Tutorials',
-        description: 'Slide deck from our Fall 2024 bootcamp covering BCI paradigms and signal acquisition.',
-        link: '#',
-        type: 'slides'
-    },
-    {
-        title: 'PCB Design Guidelines',
-        category: 'Hardware',
-        description: 'Best practices for designing low-noise analog front-ends for biosignal acquisition.',
-        link: '#',
-        type: 'guide'
-    }
-];
-
-export default function ResourceGrid() {
+export default function ResourceGrid({ resources = [] }: { resources?: SanityResource[] }) {
     const [activeCategory, setActiveCategory] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -117,8 +74,11 @@ export default function ResourceGrid() {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
                                 transition={{ duration: 0.2 }}
-                                key={res.title}
-                                onClick={() => window.open(res.link, '_blank')}
+                                key={res._id}
+                                onClick={() => {
+                                    const link = res.externalLink || res.fileUrl || '#';
+                                    window.open(link, '_blank');
+                                }}
                                 className="group border rounded-2xl p-6 md:p-7 transition-all hover:border-[var(--color-blue-primary)]/30 hover:shadow-[0_0_40px_rgba(56,189,248,0.06)] flex flex-col md:flex-row md:items-center gap-4 md:gap-8 cursor-pointer"
                                 style={{
                                     backgroundColor: 'var(--color-surface)',

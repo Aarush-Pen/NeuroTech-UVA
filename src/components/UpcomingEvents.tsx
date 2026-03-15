@@ -4,47 +4,25 @@ import Link from 'next/link';
 import SectionReveal, { RevealItem } from './SectionReveal';
 import EEGWaveform from './EEGWaveform';
 import { ArrowRight, Clock, MapPin } from 'lucide-react';
+import { SanityEvent } from '@/sanity/types';
 
-interface Event {
-    dateMonth: string;
-    dateDay: string;
-    title: string;
-    description: string;
-    time: string;
-    location: string;
-}
+const MONTH_NAMES = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
-const events: Event[] = [
-    {
-        dateMonth: 'FEB',
-        dateDay: '22',
-        title: 'Intro to EEG Signal Processing',
-        description:
-            'Hands-on workshop covering the fundamentals of EEG data acquisition, preprocessing, and spectral analysis using Python and MNE.',
-        time: '6:00 PM EST',
-        location: 'Rice Hall 340',
-    },
-    {
-        dateMonth: 'MAR',
-        dateDay: '08',
-        title: 'BCI Demo Day',
-        description:
-            'Live demonstrations of our brain-computer interface projects, including real-time motor imagery control and P300 speller systems.',
-        time: '5:30 PM EST',
-        location: 'Thornton Hall E316',
-    },
-    {
-        dateMonth: 'MAR',
-        dateDay: '22',
-        title: 'Neural Hardware Design Sprint',
-        description:
-            'A collaborative design session focused on custom electrode arrays and signal amplification circuits for affordable BCI hardware.',
-        time: '4:00 PM EST',
-        location: 'Lind-MakerSpace',
-    },
-];
+const getMonthDay = (dateString: string) => {
+    const date = new Date(dateString);
+    const month = MONTH_NAMES[date.getMonth()];
+    const day = date.getDate().toString().padStart(2, '0');
+    return { month, day };
+};
 
-export default function UpcomingEvents() {
+export default function UpcomingEvents({ events = [] }: { events?: SanityEvent[] }) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const upcoming = events
+        .filter(e => !e.isArchived && new Date(e.date) >= today)
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+        .slice(0, 3);
     return (
         <section className="relative py-28 md:py-36 overflow-hidden" style={{ backgroundColor: 'var(--color-ink)' }}>
             {/* Subtle background distinction: radial glow */}
@@ -85,79 +63,82 @@ export default function UpcomingEvents() {
                     />
 
                     <div className="flex flex-col gap-6">
-                        {events.map((event, i) => (
-                            <RevealItem key={i}>
-                                <div className="group flex gap-6 items-start">
-                                    {/* Date node */}
-                                    <div className="flex-shrink-0 relative z-10 hidden sm:flex flex-col items-center">
+                        {upcoming.map((event) => {
+                            const { month, day } = getMonthDay(event.date);
+                            return (
+                                <RevealItem key={event._id}>
+                                    <div className="group flex gap-6 items-start">
+                                        {/* Date node */}
+                                        <div className="flex-shrink-0 relative z-10 hidden sm:flex flex-col items-center">
+                                            <div
+                                                className="w-[56px] h-[56px] rounded-xl flex flex-col items-center justify-center transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(56,189,248,0.15)] group-hover:border-[rgba(56,189,248,0.4)]"
+                                                style={{
+                                                    backgroundColor: 'var(--color-surface)',
+                                                    border: '1px solid var(--color-border)'
+                                                }}
+                                            >
+                                                <span
+                                                    className="text-[10px] tracking-[0.1em] uppercase font-bold leading-none"
+                                                    style={{ fontFamily: 'var(--font-body)', color: 'var(--color-blue-primary)' }}
+                                                >
+                                                    {month}
+                                                </span>
+                                                <span
+                                                    className="text-xl font-bold leading-none mt-0.5"
+                                                    style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
+                                                >
+                                                    {day}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {/* Content card */}
                                         <div
-                                            className="w-[56px] h-[56px] rounded-xl flex flex-col items-center justify-center transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(56,189,248,0.15)] group-hover:border-[rgba(56,189,248,0.4)]"
+                                            className="flex-1 rounded-2xl border p-6 md:p-7 transition-all duration-300 group-hover:border-[rgba(56,189,248,0.2)] group-hover:shadow-[0_0_30px_rgba(56,189,248,0.04)] group-hover:-translate-y-0.5"
                                             style={{
                                                 backgroundColor: 'var(--color-surface)',
-                                                border: '1px solid var(--color-border)'
+                                                borderColor: 'var(--color-border)'
                                             }}
                                         >
-                                            <span
-                                                className="text-[10px] tracking-[0.1em] uppercase font-bold leading-none"
-                                                style={{ fontFamily: 'var(--font-body)', color: 'var(--color-blue-primary)' }}
-                                            >
-                                                {event.dateMonth}
-                                            </span>
-                                            <span
-                                                className="text-xl font-bold leading-none mt-0.5"
+                                            {/* Mobile date */}
+                                            <div className="sm:hidden flex items-center gap-2 mb-3">
+                                                <span className="text-[10px] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--color-blue-primary)' }}>
+                                                    {month} {day}
+                                                </span>
+                                            </div>
+
+                                            <h3
+                                                className="text-lg font-bold mb-2 tracking-tight group-hover:text-[var(--color-blue-primary)] transition-colors"
                                                 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
                                             >
-                                                {event.dateDay}
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    {/* Content card */}
-                                    <div
-                                        className="flex-1 rounded-2xl border p-6 md:p-7 transition-all duration-300 group-hover:border-[rgba(56,189,248,0.2)] group-hover:shadow-[0_0_30px_rgba(56,189,248,0.04)] group-hover:-translate-y-0.5"
-                                        style={{
-                                            backgroundColor: 'var(--color-surface)',
-                                            borderColor: 'var(--color-border)'
-                                        }}
-                                    >
-                                        {/* Mobile date */}
-                                        <div className="sm:hidden flex items-center gap-2 mb-3">
-                                            <span className="text-[10px] tracking-[0.12em] uppercase font-bold" style={{ color: 'var(--color-blue-primary)' }}>
-                                                {event.dateMonth} {event.dateDay}
-                                            </span>
-                                        </div>
-
-                                        <h3
-                                            className="text-lg font-bold mb-2 tracking-tight group-hover:text-[var(--color-blue-primary)] transition-colors"
-                                            style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
-                                        >
-                                            {event.title}
-                                        </h3>
-                                        <p
-                                            className="text-sm leading-relaxed mb-5"
-                                            style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
-                                        >
-                                            {event.description}
-                                        </p>
-
-                                        <div className="flex flex-wrap items-center gap-5">
-                                            <span
-                                                className="text-[11px] font-medium flex items-center gap-1.5"
+                                                {event.title}
+                                            </h3>
+                                            <p
+                                                className="text-sm leading-relaxed mb-5"
                                                 style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
                                             >
-                                                <Clock size={12} className="opacity-50" /> {event.time}
-                                            </span>
-                                            <span
-                                                className="text-[11px] font-medium flex items-center gap-1.5"
-                                                style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
-                                            >
-                                                <MapPin size={12} className="opacity-50" /> {event.location}
-                                            </span>
+                                                {event.description}
+                                            </p>
+
+                                            <div className="flex flex-wrap items-center gap-5">
+                                                <span
+                                                    className="text-[11px] font-medium flex items-center gap-1.5"
+                                                    style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
+                                                >
+                                                    <Clock size={12} className="opacity-50" /> {event.time}
+                                                </span>
+                                                <span
+                                                    className="text-[11px] font-medium flex items-center gap-1.5"
+                                                    style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
+                                                >
+                                                    <MapPin size={12} className="opacity-50" /> {event.location}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </RevealItem>
-                        ))}
+                                </RevealItem>
+                            );
+                        })}
                     </div>
                 </div>
 

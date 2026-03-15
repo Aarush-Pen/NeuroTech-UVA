@@ -5,64 +5,15 @@ import SectionReveal, { RevealItem } from '@/components/SectionReveal';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink } from 'lucide-react';
 
-const allProjects = [
-    {
-        name: 'Cortex BCI Pipeline',
-        description: 'Real-time brain-computer interface processing pipeline for motor imagery classification using EEG signals.',
-        tags: ['α', 'EEG', 'Python', 'BCI'],
-        status: 'Active Research',
-        repo: '#',
-        demo: '#'
-    },
-    {
-        name: 'Neural Signal Decoder',
-        description: 'Deep learning model for decoding neural patterns from non-invasive EEG recordings with >85% classification accuracy.',
-        tags: ['β', 'ML', 'PyTorch', 'Signal'],
-        status: 'Active Research',
-        repo: '#',
-        demo: '#'
-    },
-    {
-        name: 'OpenBCI Hardware Lab',
-        description: 'Custom electrode array design and signal acquisition hardware for affordable neuroscience research.',
-        tags: ['θ', 'Hardware', 'Arduino', 'PCB'],
-        status: 'Hardware',
-        repo: '#',
-        demo: '#'
-    },
-    {
-        name: 'Sleep Spindle Detector',
-        description: 'Automated algorithm to detect sleep spindles in NREM sleep stages using time-frequency analysis.',
-        tags: ['δ', 'Signal', 'Matlab', 'Sleep'],
-        status: 'Completed',
-        repo: '#',
-        demo: '#'
-    },
-    {
-        name: 'NeuroFeedback Game',
-        description: 'Unity-based game controlled by concentration levels measured via a single-channel EEG headset.',
-        tags: ['γ', 'Unity', 'C#', 'GameDev'],
-        status: 'Demo Ready',
-        repo: '#',
-        demo: '#'
-    },
-    {
-        name: 'Eye-Tracking Assistive Tech',
-        description: 'Low-cost eye tracking system for ALS patients to communicate using gaze estimation.',
-        tags: ['CV', 'Python', 'OpenCV'],
-        status: 'In Development',
-        repo: '#',
-        demo: '#'
-    }
-];
+import { SanityProject } from '@/sanity/types';
 
-export default function ProjectsGrid() {
+export default function ProjectsGrid({ projects = [] }: { projects?: SanityProject[] }) {
     return (
         <section className="py-28" style={{ backgroundColor: 'var(--color-ink)' }}>
             <SectionReveal className="max-w-5xl mx-auto px-6 lg:px-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {allProjects.map((project) => (
-                        <RevealItem key={project.name}>
+                    {projects.map((project) => (
+                        <RevealItem key={project._id}>
                             <motion.div
                                 whileHover={{ y: -4 }}
                                 className="group relative rounded-2xl p-8 h-full flex flex-col transition-all duration-300 border hover:border-[var(--color-blue-primary)]/30 hover:shadow-[0_0_40px_rgba(56,189,248,0.06)]"
@@ -85,8 +36,8 @@ export default function ProjectsGrid() {
                                         </span>
                                     </div>
                                     <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ color: 'var(--color-text-secondary)' }}>
-                                        <a href={project.repo} className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-[var(--color-blue-primary)] transition-all"><Github size={15} /></a>
-                                        <a href={project.demo} className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-[var(--color-blue-primary)] transition-all"><ExternalLink size={15} /></a>
+                                        {project.repoUrl && <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-[var(--color-blue-primary)] transition-all"><Github size={15} /></a>}
+                                        {project.demoUrl && <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-[var(--color-blue-primary)] transition-all"><ExternalLink size={15} /></a>}
                                     </div>
                                 </div>
 
@@ -105,7 +56,7 @@ export default function ProjectsGrid() {
                                 </p>
 
                                 <div className="flex flex-wrap gap-2 mt-auto">
-                                    {project.tags.map((tag) => (
+                                    {project.tags?.map((tag) => (
                                         <span
                                             key={tag}
                                             className="px-3 py-1 text-[10px] tracking-wider uppercase rounded-full font-semibold"

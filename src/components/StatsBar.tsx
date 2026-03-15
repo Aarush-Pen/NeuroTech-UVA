@@ -3,13 +3,14 @@
 import React from 'react';
 import SectionReveal, { RevealItem } from './SectionReveal';
 import CountUp from './CountUp';
+import { SanitySiteSettings } from '@/sanity/types';
 
-export default function StatsBar() {
+export default function StatsBar({ settings }: { settings?: SanitySiteSettings }) {
     const stats = [
-        { value: 24, label: 'Active Members' },
-        { value: 3, label: 'R&D Projects' },
-        { value: 5, label: 'Events Hosted' },
-        { value: 2024, label: 'Est.' },
+        { value: settings?.activeMembers || 24, label: 'Active Members' },
+        { value: settings?.rdProjects || 3, label: 'R&D Projects' },
+        { value: settings?.eventsHosted || 5, label: 'Events Hosted' },
+        { value: settings?.foundedYear || 2024, label: 'Est.' },
     ];
 
     return (

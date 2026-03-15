@@ -5,46 +5,9 @@ import SectionReveal, { RevealItem } from '@/components/SectionReveal';
 import { motion } from 'framer-motion';
 import { Github, Linkedin } from 'lucide-react';
 
-const team = [
-    {
-        name: 'Ani Chinthakindi',
-        role: 'President/Founder',
-        major: 'Neuroscience & CS',
-        bio: 'Researching motor cortex signal decoding. Previously interned at Neuralink.',
-    },
-    {
-        name: 'Arnav Bandam',
-        role: 'Vice President',
-        major: 'Electrical Engineering',
-        bio: 'Designing low-noise amplifier circuits for custom EEG hardware.',
-    },
-    {
-        name: 'Yogi Patel',
-        role: 'Research Lead',
-        major: 'Cognitive Science',
-        bio: 'Focusing on P300 speller paradigms and signal processing algorithms.',
-    },
-    {
-        name: 'Malav Shah',
-        role: 'Events Chair',
-        major: 'Biomedical Engineering',
-        bio: 'Organizing workshops to bridge the gap between biology and tech.',
-    },
-    {
-        name: 'Michael Patel',
-        role: 'Treasurer',
-        major: 'Commerce & CS',
-        bio: 'Managing funding for hardware procurement and lab equipment.',
-    },
-    {
-        name: 'Aarush Penamets',
-        role: 'Technical Lead',
-        major: 'Psychology',
-        bio: 'Connecting with local schools to inspire the next generation of neurotech.',
-    },
-];
+import { SanityTeamMember } from '@/sanity/types';
 
-export default function TeamGrid() {
+export default function TeamGrid({ team = [] }: { team?: SanityTeamMember[] }) {
     return (
         <section className="py-28 md:py-32" style={{ backgroundColor: 'var(--color-ink)' }}>
             <SectionReveal className="max-w-4xl mx-auto px-6 lg:px-10">
@@ -76,7 +39,7 @@ export default function TeamGrid() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {team.map((member) => (
-                        <RevealItem key={member.name} className="h-full">
+                        <RevealItem key={member._id} className="h-full">
                             <motion.div
                                 whileHover={{ y: -3 }}
                                 className="group p-6 rounded-2xl relative overflow-hidden transition-all border hover:border-[var(--color-blue-primary)]/30 hover:shadow-[0_0_40px_rgba(56,189,248,0.06)] h-full flex flex-col"
@@ -93,11 +56,15 @@ export default function TeamGrid() {
                                             fontFamily: 'var(--font-heading)',
                                             border: '1px solid var(--color-border)'
                                         }}>
-                                        {member.name.charAt(0)}
+                                        {member.photoUrl ? (
+                                            <img src={member.photoUrl} alt={member.name} className="w-full h-full object-cover rounded-full" />
+                                        ) : (
+                                            member.name.charAt(0)
+                                        )}
                                     </div>
                                     <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ color: 'var(--color-text-secondary)' }}>
-                                        <a href="#" className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-[var(--color-blue-primary)] transition-all"><Github size={13} /></a>
-                                        <a href="#" className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-[var(--color-blue-primary)] transition-all"><Linkedin size={13} /></a>
+                                        {member.githubUrl && <a href={member.githubUrl} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-[var(--color-blue-primary)] transition-all"><Github size={13} /></a>}
+                                        {member.linkedinUrl && <a href={member.linkedinUrl} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-[var(--color-blue-primary)] transition-all"><Linkedin size={13} /></a>}
                                     </div>
                                 </div>
 
