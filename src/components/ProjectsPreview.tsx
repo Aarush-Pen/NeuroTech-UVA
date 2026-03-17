@@ -67,7 +67,7 @@ function ProjectCard({ project }: { project: SanityProject }) {
 
 export default function ProjectsPreview({ projects = [] }: { projects?: SanityProject[] }) {
     const topProjects = projects.slice(0, 3);
-    
+
     return (
         <section className="relative py-28 md:py-36" style={{ backgroundColor: 'var(--color-ink-light)' }}>
             <SectionReveal className="max-w-5xl mx-auto px-6 lg:px-10">
