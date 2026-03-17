@@ -48,55 +48,77 @@ export default function TeamGrid({ team = [] }: { team?: SanityTeamMember[] }) {
                                     borderColor: 'var(--color-border)'
                                 }}
                             >
-                                <div className="flex items-start justify-between mb-4">
-                                    <div className="w-11 h-11 rounded-full flex items-center justify-center font-bold text-lg transition-transform duration-300 group-hover:scale-110"
-                                        style={{
-                                            backgroundColor: 'var(--color-ink)',
-                                            color: 'var(--color-blue-primary)',
-                                            fontFamily: 'var(--font-heading)',
-                                            border: '1px solid var(--color-border)'
-                                        }}>
-                                        {member.photoUrl ? (
-                                            <img src={member.photoUrl} alt={member.name} className="w-full h-full object-cover rounded-full" />
-                                        ) : (
-                                            member.name.charAt(0)
-                                        )}
+                                <div className="relative w-full aspect-square mb-5 rounded-xl overflow-hidden shadow-sm group-hover:shadow-[0_4px_20px_rgba(56,189,248,0.15)] transition-all duration-500"
+                                    style={{
+                                        backgroundColor: 'var(--color-ink)',
+                                        border: '1px solid var(--color-border)'
+                                    }}>
+                                    {member.photoUrl ? (
+                                        <img src={member.photoUrl} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
+                                    ) : (
+                                        <div className="w-full h-full flex flex-col items-center justify-center font-bold text-5xl"
+                                            style={{
+                                                color: 'var(--color-blue-primary)',
+                                                fontFamily: 'var(--font-heading)'
+                                            }}>
+                                            {member.name.charAt(0)}
+                                        </div>
+                                    )}
+
+                                    {/* Bottom-left contrast gradient overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent flex flex-col justify-end p-5 pb-3 transition-opacity duration-300">
+                                        <h3
+                                            className="text-lg sm:text-xl font-bold text-white mb-0.5"
+                                            style={{ fontFamily: 'var(--font-heading)' }}
+                                        >
+                                            {member.name}
+                                        </h3>
+                                        <div
+                                            className="text-[11px] tracking-[0.15em] uppercase font-semibold text-blue-400 opacity-90"
+                                            style={{ fontFamily: 'var(--font-body)' }}
+                                        >
+                                            {member.role}
+                                        </div>
                                     </div>
-                                    <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ color: 'var(--color-text-secondary)' }}>
-                                        {member.githubUrl && <a href={member.githubUrl} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-[var(--color-blue-primary)] transition-all"><Github size={13} /></a>}
-                                        {member.linkedinUrl && <a href={member.linkedinUrl} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-[var(--color-blue-primary)] transition-all"><Linkedin size={13} /></a>}
+
+                                    {/* Top-right Social Links Overlay */}
+                                    <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-[-5px] group-hover:translate-y-0">
+                                        {member.githubUrl && (
+                                            <a href={member.githubUrl} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white/90 hover:text-white hover:bg-[var(--color-blue-primary)] transition-all shadow-md">
+                                                <Github size={15} />
+                                            </a>
+                                        )}
+                                        {member.linkedinUrl && (
+                                            <a href={member.linkedinUrl} target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white/90 hover:text-white hover:bg-[var(--color-blue-primary)] transition-all shadow-md">
+                                                <Linkedin size={15} />
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
 
-                                <h3
-                                    className="text-base font-bold mb-0.5 group-hover:text-[var(--color-blue-primary)] transition-colors"
-                                    style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
-                                >
-                                    {member.name}
-                                </h3>
-                                <div
-                                    className="text-[10px] tracking-[0.12em] uppercase mb-3 font-semibold"
-                                    style={{ fontFamily: 'var(--font-body)', color: 'var(--color-blue-primary)' }}
-                                >
-                                    {member.role}
+                                <div className="flex flex-col flex-grow">
+                                    <div className="mb-3">
+                                        <span
+                                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] tracking-widest uppercase font-semibold"
+                                            style={{
+                                                fontFamily: 'var(--font-body)',
+                                                backgroundColor: 'var(--color-ink)',
+                                                color: 'var(--color-text-secondary)',
+                                                border: '1px solid var(--color-border)'
+                                            }}
+                                        >
+                                            <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-blue-primary)]/70"></span>
+                                            {member.major}
+                                        </span>
+                                    </div>
+
+                                    <p
+                                        className="text-[14px] leading-relaxed mt-1"
+                                        style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
+                                    >
+                                        {member.bio}
+                                    </p>
                                 </div>
-                                <p
-                                    className="text-[13px] leading-relaxed mb-3 flex-grow"
-                                    style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
-                                >
-                                    {member.bio}
-                                </p>
-                                <span
-                                    className="inline-block px-2.5 py-0.5 rounded-full text-[10px] tracking-wider uppercase font-semibold"
-                                    style={{
-                                        fontFamily: 'var(--font-body)',
-                                        backgroundColor: 'var(--color-ink)',
-                                        color: 'var(--color-text-secondary)',
-                                        border: '1px solid var(--color-border)'
-                                    }}
-                                >
-                                    {member.major}
-                                </span>
                             </motion.div>
                         </RevealItem>
                     ))}

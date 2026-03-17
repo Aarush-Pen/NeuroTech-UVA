@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Inter } from "next/font/google"; // New fonts
+import { Plus_Jakarta_Sans, Inter, Geist } from "next/font/google"; // New fonts
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+
 
 // Configure new fonts
 const plusJakarta = Plus_Jakarta_Sans({
@@ -34,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${plusJakarta.variable} ${inter.variable}`}>
+    <html lang="en" className={cn(plusJakarta.variable, inter.variable, "font-sans", geist.variable)}>
       <head>
         {/* Removed manual Google Fonts link since we are using next/font/google */}
       </head>

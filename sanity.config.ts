@@ -1,6 +1,8 @@
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { schemaTypes } from './src/sanity/schemas';
+import { CustomDeleteAction } from './src/sanity/components/CustomDeleteAction';
+import { CustomMediaInput } from './src/sanity/components/CustomMediaInput';
 
 export default defineConfig({
   basePath: '/studio',
@@ -13,4 +15,26 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
   },
+
+  document: {
+    actions: (prev, context) => {
+      // Find the standard delete action and replace it with our prominent one
+      const withoutDelete = prev.filter((a) => a.action !== 'delete');
+      // If prevailing actions included delete, we append our custom one (usually true for documents)
+      const hasDelete = prev.some((a) => a.action === 'delete');
+      return hasDelete ? [...withoutDelete, CustomDeleteAction] : prev;
+    },
+  },
+
+  form: {
+    components: {
+      input: (props) => {
+        if (props.schemaType.name === 'image' || props.schemaType.name === 'file') {
+          return CustomMediaInput(props as any);
+        }
+        return props.renderDefault(props);
+      },
+    },
+  },
 });
+
