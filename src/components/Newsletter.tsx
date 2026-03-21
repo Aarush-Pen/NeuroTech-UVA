@@ -4,23 +4,40 @@ import React, { useState, useEffect } from 'react';
 import SectionReveal, { RevealItem } from './SectionReveal';
 import { ArrowRight, Check, Loader2 } from 'lucide-react';
 
-const LS_KEY = 'nt_newsletter_subscribed_at';
+const LS_KEY = 'nt_newsletter_emails';
 const COOLDOWN_MS = 24 * 60 * 60 * 1000; // 24 hours
+const MAX_EMAILS = 3;
+
+function getSubmittedTimestamps(): number[] {
+    try {
+        const raw = localStorage.getItem(LS_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw) as number[];
+        const now = Date.now();
+        return parsed.filter(ts => now - ts < COOLDOWN_MS);
+    } catch {
+        return [];
+    }
+}
+
+function addSubmittedTimestamp() {
+    try {
+        const existing = getSubmittedTimestamps();
+        localStorage.setItem(LS_KEY, JSON.stringify([...existing, Date.now()]));
+    } catch { /* ignore */ }
+}
 
 export default function Newsletter() {
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error' | 'already_subscribed'>('idle');
     const [errorMessage, setErrorMessage] = useState('');
+    const [submittedCount, setSubmittedCount] = useState(0);
 
-    // On mount, check if this browser already subscribed within the cooldown window.
     useEffect(() => {
-        try {
-            const ts = localStorage.getItem(LS_KEY);
-            if (ts && Date.now() - Number(ts) < COOLDOWN_MS) {
-                setStatus('already_subscribed');
-            }
-        } catch {
-            // localStorage unavailable (SSR / private browsing) — allow submission
+        const timestamps = getSubmittedTimestamps();
+        if (timestamps.length > 0) {
+            setSubmittedCount(timestamps.length);
+            setStatus('already_subscribed');
         }
     }, []);
 
@@ -44,18 +61,26 @@ export default function Newsletter() {
                 throw new Error(data.error || 'Something went wrong');
             }
 
-            try {
-                localStorage.setItem(LS_KEY, String(Date.now()));
-            } catch { /* ignore */ }
-
+            addSubmittedTimestamp();
+            const newCount = submittedCount + 1;
+            setSubmittedCount(newCount);
             setStatus('success');
             setEmail('');
+
+            // Transition to already_subscribed after briefly showing success
+            setTimeout(() => setStatus('already_subscribed'), 1800);
         } catch (err) {
             setStatus('error');
             setErrorMessage(err instanceof Error ? err.message : 'Something went wrong');
         }
     };
 
+    const handleSignUpAgain = () => {
+        setStatus('idle');
+        setEmail('');
+    };
+
+    const canSignUpAgain = submittedCount < MAX_EMAILS;
     const isBlocked = status === 'loading' || status === 'success' || status === 'already_subscribed';
 
     return (
@@ -71,9 +96,20 @@ export default function Newsletter() {
                         </p>
 
                         {status === 'already_subscribed' ? (
-                            <div className="flex items-center justify-center gap-2 text-sm text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body)' }}>
-                                <Check size={14} className="text-[var(--color-blue-primary)]" />
-                                You&rsquo;re already subscribed.
+                            <div className="flex flex-col items-center gap-2">
+                                <div className="flex items-center justify-center gap-2 text-sm text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body)' }}>
+                                    <Check size={14} className="text-[var(--color-blue-primary)]" />
+                                    You&rsquo;re already signed up.
+                                </div>
+                                {canSignUpAgain && (
+                                    <button
+                                        onClick={handleSignUpAgain}
+                                        className="text-xs text-[var(--color-text-tertiary)] underline transition-colors hover:text-[var(--color-text-secondary)]"
+                                        style={{ fontFamily: 'var(--font-body)' }}
+                                    >
+                                        Sign up with another email
+                                    </button>
+                                )}
                             </div>
                         ) : (
                             <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
