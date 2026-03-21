@@ -85,7 +85,7 @@ export default function ResearchPillars() {
                         <RevealItem key={pillar.id}>
                             <motion.div
                                 whileHover={{ backgroundColor: 'var(--color-surface-hover)' }}
-                                className="p-8 md:p-10 bg-[var(--color-surface)] group transition-colors duration-300"
+                                className="p-8 md:p-10 bg-[var(--color-surface)] group transition-colors duration-300 h-full"
                             >
                                 <div className="flex items-start gap-5">
                                     <div className="flex-shrink-0 w-10 h-10 rounded-md border border-[var(--color-border)] flex items-center justify-center text-[var(--color-blue-primary)] group-hover:border-[var(--color-blue-primary)] transition-colors">

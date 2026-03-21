@@ -51,9 +51,16 @@ export interface SanityResource {
 export interface SanitySiteSettings {
   _id?: string;
   activeMembers: number;
+  foundedYear: number;
+}
+
+// Stats shown on the homepage — activeMembers and foundedYear come from
+// siteSettings; rdProjects and eventsHosted are computed live from Sanity.
+export interface SanityStats {
+  activeMembers: number;
+  foundedYear: number;
   rdProjects: number;
   eventsHosted: number;
-  foundedYear: number;
 }
 
 export interface SanityTimelinePhase {

@@ -31,19 +31,29 @@ export const itemVariants: Variants = {
     },
 };
 
+// Pre-create motion components once at module level.
+// Calling motion.create(as) inside render creates a new component type on every
+// render, which makes React unmount/remount the element and re-trigger animations.
+const motionComponents = {
+    div: motion.div,
+    section: motion.section,
+    article: motion.article,
+} as const;
+
 export default function SectionReveal({
     children,
     className = '',
     as = 'div',
 }: SectionRevealProps) {
-    const ref = React.useRef<HTMLDivElement>(null);
+    const ref = React.useRef<HTMLElement>(null);
     const isInView = useInView(ref, { once: true, margin: '-80px' });
 
-    const Component = motion.create(as);
+    const Component = motionComponents[as];
 
     return (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         <Component
-            ref={ref}
+            ref={ref as any}
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? 'visible' : 'hidden'}

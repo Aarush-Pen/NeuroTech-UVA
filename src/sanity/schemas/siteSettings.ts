@@ -9,22 +9,9 @@ export default defineType({
       name: 'activeMembers',
       title: 'Active Members Count',
       type: 'number',
+      description: 'Manually set the number of active members shown on the homepage.',
       validation: (Rule) => Rule.required(),
       initialValue: 24,
-    }),
-    defineField({
-      name: 'rdProjects',
-      title: 'R&D Projects Count',
-      type: 'number',
-      validation: (Rule) => Rule.required(),
-      initialValue: 3,
-    }),
-    defineField({
-      name: 'eventsHosted',
-      title: 'Events Hosted Count',
-      type: 'number',
-      validation: (Rule) => Rule.required(),
-      initialValue: 5,
     }),
     defineField({
       name: 'foundedYear',
@@ -34,4 +21,10 @@ export default defineType({
       initialValue: 2024,
     }),
   ],
+  __experimental_formPreviewTitle: false,
+  preview: {
+    prepare() {
+      return { title: 'Site Settings' };
+    },
+  },
 });

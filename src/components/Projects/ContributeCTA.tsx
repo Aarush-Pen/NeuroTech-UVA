@@ -19,7 +19,7 @@ export default function ContributeCTA() {
                     </p>
                 </RevealItem>
                 <RevealItem>
-                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <div className="flex justify-center">
                         <a
                             href="https://groupme.com/join_group/113177848/ViLRyCBl"
                             target="_blank"
@@ -28,14 +28,6 @@ export default function ContributeCTA() {
                         >
                             Pitch a Project
                             <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
-                        </a>
-                        <a
-                            href="https://groupme.com/join_group/113177848/ViLRyCBl"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-2 px-7 py-3 text-[13px] font-medium border border-[var(--color-border)] transition-all duration-300 hover:bg-[var(--color-surface)] hover:border-[var(--color-text-tertiary)] text-[var(--color-text-primary)] rounded-md"
-                        >
-                            Join GroupMe
                         </a>
                     </div>
                 </RevealItem>

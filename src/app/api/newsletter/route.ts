@@ -1,7 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// Module-level rate limiter — persists across warm serverless instances.
+// Keyed by IP. Each entry tracks attempt count and the time the window resets.
+const WINDOW_MS = 10 * 60 * 1000; // 10 minutes
+const MAX_REQUESTS = 3;
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+function getIp(req: NextRequest): string {
+    return (
+        req.headers.get('x-forwarded-for')?.split(',')[0].trim() ||
+        req.headers.get('x-real-ip') ||
+        'unknown'
+    );
+}
+
+function isRateLimited(ip: string): boolean {
+    const now = Date.now();
+    const entry = rateLimitMap.get(ip);
+
+    if (!entry || now > entry.resetAt) {
+        rateLimitMap.set(ip, { count: 1, resetAt: now + WINDOW_MS });
+        return false;
+    }
+
+    if (entry.count >= MAX_REQUESTS) return true;
+
+    entry.count += 1;
+    return false;
+}
+
 export async function POST(req: NextRequest) {
     try {
+        const ip = getIp(req);
+        if (isRateLimited(ip)) {
+            return NextResponse.json(
+                { error: 'Too many requests. Please wait a few minutes and try again.' },
+                { status: 429 }
+            );
+        }
+
         const { email } = await req.json();
 
         if (!email || !email.includes('@')) {

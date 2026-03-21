@@ -79,7 +79,7 @@ export default function TeamGrid({ team = [] }: { team?: SanityTeamMember[] }) {
 
                                 {/* Info */}
                                 <div className="flex flex-col flex-grow">
-                                    <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-[10px] tracking-wider uppercase font-medium bg-[var(--color-ink)] text-[var(--color-text-tertiary)] border border-[var(--color-border)] w-fit mb-3" style={{ fontFamily: 'var(--font-body)' }}>
+                                    <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-[10px] tracking-wider uppercase font-medium bg-[var(--color-ink)] text-[var(--color-text-secondary)] border border-[var(--color-border)] w-fit mb-3" style={{ fontFamily: 'var(--font-body)' }}>
                                         {member.major}
                                     </span>
                                     <p className="text-[13px] leading-relaxed text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body)' }}>

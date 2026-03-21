@@ -45,6 +45,16 @@ export const resourcesQuery = `*[_type == "resource"] | order(title asc) {
 
 export const siteSettingsQuery = `*[_type == "siteSettings"][0]`;
 
+// Combines manual siteSettings fields with counts computed live from Sanity data.
+// rdProjects = total project documents
+// eventsHosted = events that are not "Gen Bod" or "Social" (workshops, speakers, etc.)
+export const statsQuery = `{
+  "activeMembers": *[_type == "siteSettings"][0].activeMembers,
+  "foundedYear": *[_type == "siteSettings"][0].foundedYear,
+  "rdProjects": count(*[_type == "project"]),
+  "eventsHosted": count(*[_type == "event" && type != "Gen Bod" && type != "Social"])
+}`;
+
 export const timelinePhasesQuery = `*[_type == "timelinePhase"] | order(phase asc) {
   _id,
   phase,
