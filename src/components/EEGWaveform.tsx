@@ -12,7 +12,7 @@ interface EEGWaveformProps {
 
 export default function EEGWaveform({
     className = '',
-    color = '#00E5C8',
+    color = 'var(--color-blue-primary)',
     opacity = 0.3,
     reverse = false,
     height = 60,

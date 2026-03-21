@@ -44,7 +44,7 @@ export default defineType({
         list: [
           { title: 'Workshop', value: 'Workshop' },
           { title: 'Social', value: 'Social' },
-          { title: 'Hackathon', value: 'Hackathon' },
+          { title: 'Gen Bod', value: 'Gen Bod' },
           { title: 'Speaker', value: 'Speaker' },
           { title: 'Other', value: 'Other' },
         ],

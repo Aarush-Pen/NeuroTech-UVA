@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import SectionReveal, { RevealItem } from '@/components/SectionReveal';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, ExternalLink } from 'lucide-react';
-
 import { SanityResource } from '@/sanity/types';
 
 const categories = ['All', 'Hardware', 'Software', 'Datasets', 'Tutorials'];
@@ -21,24 +20,21 @@ export default function ResourceGrid({ resources = [] }: { resources?: SanityRes
     });
 
     return (
-        <section className="py-28 min-h-screen" style={{ backgroundColor: 'var(--color-ink)' }}>
-            <SectionReveal className="max-w-5xl mx-auto px-6 lg:px-10">
-
+        <section className="py-24 md:py-32 min-h-screen" style={{ backgroundColor: 'var(--color-ink)' }}>
+            <SectionReveal className="max-w-4xl mx-auto px-6 lg:px-10">
                 {/* Controls */}
-                <RevealItem className="mb-10 flex flex-col md:flex-row justify-between items-center gap-6">
+                <RevealItem className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                     {/* Categories */}
-                    <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                    <div className="flex flex-wrap gap-2">
                         {categories.map(cat => (
                             <button
                                 key={cat}
                                 onClick={() => setActiveCategory(cat)}
-                                className="px-4 py-2 rounded-full text-[11px] font-semibold tracking-wide uppercase transition-all duration-200 border"
-                                style={{
-                                    fontFamily: 'var(--font-body)',
-                                    backgroundColor: activeCategory === cat ? 'var(--color-blue-primary)' : 'transparent',
-                                    color: activeCategory === cat ? '#08090F' : 'var(--color-text-secondary)',
-                                    borderColor: activeCategory === cat ? 'var(--color-blue-primary)' : 'var(--color-border)'
-                                }}
+                                className={`px-3.5 py-2 rounded-md text-[11px] font-medium tracking-wide transition-all duration-200 border ${activeCategory === cat
+                                    ? 'bg-[var(--color-blue-primary)] text-white border-[var(--color-blue-primary)]'
+                                    : 'bg-transparent text-[var(--color-text-secondary)] border-[var(--color-border)] hover:border-[var(--color-text-tertiary)]'
+                                    }`}
+                                style={{ fontFamily: 'var(--font-body)' }}
                             >
                                 {cat}
                             </button>
@@ -46,94 +42,57 @@ export default function ResourceGrid({ resources = [] }: { resources?: SanityRes
                     </div>
 
                     {/* Search */}
-                    <div className="relative w-full md:w-64">
-                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 opacity-40" size={15} style={{ color: 'var(--color-text-secondary)' }} />
+                    <div className="relative w-full md:w-56">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-tertiary)]" size={14} />
                         <input
                             type="text"
-                            placeholder="Search resources..."
+                            placeholder="Search..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full rounded-full py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:border-[var(--color-blue-primary)] transition-colors border"
-                            style={{
-                                fontFamily: 'var(--font-body)',
-                                backgroundColor: 'var(--color-surface)',
-                                borderColor: 'var(--color-border)',
-                                color: 'var(--color-text-primary)'
-                            }}
+                            className="w-full rounded-md py-2.5 pl-9 pr-4 text-sm focus:outline-none focus:border-[var(--color-blue-primary)] transition-colors border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)]"
+                            style={{ fontFamily: 'var(--font-body)' }}
                         />
                     </div>
                 </RevealItem>
 
-                {/* Resource Cards */}
-                <motion.div layout className="flex flex-col gap-4">
+                {/* Resource list */}
+                <motion.div layout className="flex flex-col gap-2">
                     <AnimatePresence>
                         {filteredResources.map((res) => (
                             <motion.div
                                 layout
-                                initial={{ opacity: 0, y: 10 }}
+                                initial={{ opacity: 0, y: 8 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
+                                exit={{ opacity: 0, y: -8 }}
                                 transition={{ duration: 0.2 }}
                                 key={res._id}
                                 onClick={() => {
                                     const link = res.externalLink || res.fileUrl || '#';
                                     window.open(link, '_blank');
                                 }}
-                                className="group border rounded-2xl p-6 md:p-7 transition-all hover:border-[var(--color-blue-primary)]/30 hover:shadow-[0_0_40px_rgba(56,189,248,0.06)] flex flex-col md:flex-row md:items-center gap-4 md:gap-8 cursor-pointer"
-                                style={{
-                                    backgroundColor: 'var(--color-surface)',
-                                    borderColor: 'var(--color-border)'
-                                }}
+                                className="group flex items-center gap-5 p-5 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] hover:border-[var(--color-blue-primary)]/20 transition-all cursor-pointer"
                             >
-                                {/* Category Badge */}
-                                <div className="flex-shrink-0 w-28 hidden md:block">
-                                    <span
-                                        className="px-3 py-1 rounded-full text-[10px] tracking-[0.12em] uppercase font-semibold"
-                                        style={{
-                                            fontFamily: 'var(--font-body)',
-                                            backgroundColor: 'rgba(56, 189, 248, 0.08)',
-                                            color: 'var(--color-blue-primary)',
-                                            border: '1px solid rgba(56, 189, 248, 0.15)'
-                                        }}
-                                    >
-                                        {res.category}
-                                    </span>
-                                </div>
+                                {/* Category */}
+                                <span className="hidden md:inline-block text-[10px] tracking-wider uppercase font-medium text-[var(--color-blue-primary)] w-20 flex-shrink-0" style={{ fontFamily: 'var(--font-body)' }}>
+                                    {res.category}
+                                </span>
+
+                                <div className="hidden md:block w-px h-6 bg-[var(--color-border)]" />
 
                                 {/* Content */}
-                                <div className="flex-grow">
-                                    <div className="flex items-center gap-3 mb-1">
-                                        <span
-                                            className="md:hidden px-3 py-1 rounded-full text-[10px] tracking-wider uppercase font-semibold"
-                                            style={{
-                                                fontFamily: 'var(--font-body)',
-                                                backgroundColor: 'rgba(56, 189, 248, 0.08)',
-                                                color: 'var(--color-blue-primary)',
-                                                border: '1px solid rgba(56, 189, 248, 0.15)'
-                                            }}
-                                        >
-                                            {res.category}
-                                        </span>
-                                        <h3 className="text-base md:text-lg font-bold group-hover:text-[var(--color-blue-primary)] transition-colors" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}>
-                                            {res.title}
-                                        </h3>
-                                    </div>
-                                    <p className="text-sm leading-relaxed" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}>
+                                <div className="flex-1 min-w-0">
+                                    <h3 className="text-sm font-medium mb-0.5 group-hover:text-[var(--color-blue-primary)] transition-colors text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-body)' }}>
+                                        <span className="md:hidden text-[10px] tracking-wider uppercase text-[var(--color-blue-primary)] mr-2">{res.category}</span>
+                                        {res.title}
+                                    </h3>
+                                    <p className="text-[13px] leading-relaxed text-[var(--color-text-secondary)] line-clamp-1" style={{ fontFamily: 'var(--font-body)' }}>
                                         {res.description}
                                     </p>
                                 </div>
 
                                 {/* Action */}
-                                <div className="flex-shrink-0 flex items-center justify-between md:justify-end gap-4 mt-2 md:mt-0">
-                                    <span className="md:hidden text-xs font-semibold uppercase tracking-wide group-hover:text-[var(--color-blue-primary)] transition-colors" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-primary)' }}>
-                                        Access Resource
-                                    </span>
-                                    <div
-                                        className="w-10 h-10 rounded-full flex items-center justify-center transition-all group-hover:bg-[var(--color-blue-primary)] group-hover:text-[#08090F]"
-                                        style={{ backgroundColor: 'var(--color-ink)', color: 'var(--color-text-secondary)', border: '1px solid var(--color-border)' }}
-                                    >
-                                        <ExternalLink size={16} />
-                                    </div>
+                                <div className="flex-shrink-0 w-8 h-8 rounded-md border border-[var(--color-border)] flex items-center justify-center text-[var(--color-text-tertiary)] group-hover:border-[var(--color-blue-primary)] group-hover:text-[var(--color-blue-primary)] transition-all">
+                                    <ExternalLink size={14} />
                                 </div>
                             </motion.div>
                         ))}
@@ -141,8 +100,10 @@ export default function ResourceGrid({ resources = [] }: { resources?: SanityRes
                 </motion.div>
 
                 {filteredResources.length === 0 && (
-                    <div className="text-center py-24">
-                        <p className="text-sm" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}>No resources found matching your criteria.</p>
+                    <div className="text-center py-20">
+                        <p className="text-sm text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body)' }}>
+                            No resources found matching your criteria.
+                        </p>
                     </div>
                 )}
             </SectionReveal>

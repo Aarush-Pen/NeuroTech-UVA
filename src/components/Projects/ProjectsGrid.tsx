@@ -4,54 +4,52 @@ import React from 'react';
 import SectionReveal, { RevealItem } from '@/components/SectionReveal';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink } from 'lucide-react';
-
 import { SanityProject } from '@/sanity/types';
 
 export default function ProjectsGrid({ projects = [] }: { projects?: SanityProject[] }) {
     return (
-        <section className="py-28" style={{ backgroundColor: 'var(--color-ink)' }}>
+        <section className="py-24 md:py-32" style={{ backgroundColor: 'var(--color-ink)' }}>
             <SectionReveal className="max-w-5xl mx-auto px-6 lg:px-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {projects.map((project) => (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {projects.map((project, i) => (
                         <RevealItem key={project._id}>
                             <motion.div
-                                whileHover={{ y: -4 }}
-                                className="group relative rounded-2xl p-8 h-full flex flex-col transition-all duration-300 border hover:border-[var(--color-blue-primary)]/30 hover:shadow-[0_0_40px_rgba(56,189,248,0.06)]"
-                                style={{
-                                    backgroundColor: 'var(--color-surface)',
-                                    borderColor: 'var(--color-border)'
-                                }}
+                                whileHover={{ y: -3 }}
+                                className="group relative rounded-lg p-7 h-full flex flex-col transition-all duration-300 border border-[var(--color-border)] hover:border-[var(--color-blue-primary)]/20 bg-[var(--color-surface)]"
                             >
-                                <div className="flex justify-between items-start mb-6">
-                                    <div className="flex items-center gap-2">
-                                        <span
-                                            className={`w-2 h-2 rounded-full ${project.status.includes('Active') || project.status.includes('Development') ? 'animate-pulse' : ''}`}
-                                            style={{ backgroundColor: project.status.includes('Completed') ? 'var(--color-secondary)' : 'var(--color-blue-primary)' }}
-                                        />
-                                        <span
-                                            className="text-[10px] tracking-[0.12em] uppercase font-semibold"
-                                            style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
-                                        >
-                                            {project.status}
+                                <div className="flex justify-between items-start mb-5">
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-[11px] font-mono text-[var(--color-text-tertiary)]">
+                                            {String(i + 1).padStart(2, '0')}
                                         </span>
+                                        <div className="flex items-center gap-1.5">
+                                            <span className={`w-1.5 h-1.5 rounded-full ${project.status.includes('Active') || project.status.includes('Development') ? 'animate-pulse' : ''}`}
+                                                style={{ backgroundColor: project.status.includes('Completed') ? 'var(--color-secondary)' : 'var(--color-blue-primary)' }}
+                                            />
+                                            <span className="text-[10px] tracking-[0.1em] uppercase font-medium text-[var(--color-text-tertiary)]" style={{ fontFamily: 'var(--font-body)' }}>
+                                                {project.status}
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ color: 'var(--color-text-secondary)' }}>
-                                        {project.repoUrl && <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-[var(--color-blue-primary)] transition-all"><Github size={15} /></a>}
-                                        {project.demoUrl && <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-[var(--color-blue-primary)] transition-all"><ExternalLink size={15} /></a>}
+                                    <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                        {project.repoUrl && (
+                                            <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-md flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-[var(--color-blue-primary)] transition-all text-[var(--color-text-tertiary)]">
+                                                <Github size={14} />
+                                            </a>
+                                        )}
+                                        {project.demoUrl && (
+                                            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="w-7 h-7 rounded-md flex items-center justify-center hover:bg-[var(--color-ink)] hover:text-[var(--color-blue-primary)] transition-all text-[var(--color-text-tertiary)]">
+                                                <ExternalLink size={14} />
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
 
-                                <h3
-                                    className="text-xl font-bold mb-3 tracking-tight group-hover:text-[var(--color-blue-primary)] transition-colors"
-                                    style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
-                                >
+                                <h3 className="text-lg mb-3 tracking-tight group-hover:text-[var(--color-blue-primary)] transition-colors text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-heading)' }}>
                                     {project.name}
                                 </h3>
 
-                                <p
-                                    className="text-sm leading-relaxed mb-6 flex-grow"
-                                    style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
-                                >
+                                <p className="text-sm leading-relaxed mb-6 flex-grow text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body)' }}>
                                     {project.description}
                                 </p>
 
@@ -59,13 +57,8 @@ export default function ProjectsGrid({ projects = [] }: { projects?: SanityProje
                                     {project.tags?.map((tag) => (
                                         <span
                                             key={tag}
-                                            className="px-3 py-1 text-[10px] tracking-wider uppercase rounded-full font-semibold"
-                                            style={{
-                                                fontFamily: 'var(--font-body)',
-                                                backgroundColor: 'var(--color-ink)',
-                                                color: 'var(--color-text-secondary)',
-                                                border: '1px solid var(--color-border)'
-                                            }}
+                                            className="px-2.5 py-1 text-[10px] tracking-wider uppercase font-medium rounded-md border border-[var(--color-border)] bg-[var(--color-ink)] text-[var(--color-text-tertiary)]"
+                                            style={{ fontFamily: 'var(--font-body)' }}
                                         >
                                             {tag}
                                         </span>

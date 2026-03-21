@@ -1,26 +1,28 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Inter, Geist } from "next/font/google"; // New fonts
+import { Playfair_Display, DM_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
-
-// Configure new fonts
-const plusJakarta = Plus_Jakarta_Sans({
+const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-jakarta",
+  variable: "--font-instrument",
   display: "swap",
   weight: ["400", "500", "600", "700"],
 });
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-outfit",
   display: "swap",
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -38,10 +40,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn(plusJakarta.variable, inter.variable, "font-sans", geist.variable)}>
-      <head>
-        {/* Removed manual Google Fonts link since we are using next/font/google */}
-      </head>
+    <html
+      lang="en"
+      className={cn(
+        playfairDisplay.variable,
+        dmSans.variable,
+        geistMono.variable,
+        "font-sans"
+      )}
+    >
       <body>
         <Navbar />
         <main>{children}</main>

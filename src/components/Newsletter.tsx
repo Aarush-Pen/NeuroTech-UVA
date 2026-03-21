@@ -1,59 +1,81 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import SectionReveal, { RevealItem } from './SectionReveal';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Check, Loader2 } from 'lucide-react';
 
 export default function Newsletter() {
+    const [email, setEmail] = useState('');
+    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!email) return;
+
+        setStatus('loading');
+        setErrorMessage('');
+
+        try {
+            const res = await fetch('/api/newsletter', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+            });
+
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.error || 'Something went wrong');
+            }
+
+            setStatus('success');
+            setEmail('');
+        } catch (err) {
+            setStatus('error');
+            setErrorMessage(err instanceof Error ? err.message : 'Something went wrong');
+        }
+    };
+
     return (
-        <section className="py-28" style={{ backgroundColor: 'var(--color-ink-light)' }}>
-            <SectionReveal className="max-w-2xl mx-auto px-6">
+        <section className="py-24 border-t border-[var(--color-border)]" style={{ backgroundColor: 'var(--color-ink)' }}>
+            <SectionReveal className="max-w-xl mx-auto px-6">
                 <RevealItem>
-                    <div className="rounded-2xl border p-10 md:p-12 flex flex-col items-center text-center relative overflow-hidden transition-all"
-                        style={{
-                            backgroundColor: 'var(--color-surface)',
-                            borderColor: 'var(--color-border)'
-                        }}>
-
-                        {/* Top accent line */}
-                        <div className="absolute top-0 left-0 w-full h-[2px]"
-                            style={{ background: 'linear-gradient(90deg, transparent, var(--color-blue-primary), transparent)' }} />
-
-                        <h3
-                            className="text-2xl md:text-3xl font-bold mb-3"
-                            style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
-                        >
-                            Stay Connected
+                    <div className="text-center">
+                        <h3 className="text-2xl md:text-3xl mb-3 text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-heading)' }}>
+                            Stay in the loop
                         </h3>
-                        <p
-                            className="text-sm mb-8 leading-relaxed max-w-md"
-                            style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
-                        >
+                        <p className="text-sm mb-8 leading-relaxed text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body)' }}>
                             Join our mailing list for updates on workshops, research opportunities, and events.
                         </p>
 
-                        <div className="w-full flex flex-col sm:flex-row gap-3">
+                        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
                             <input
                                 type="email"
-                                placeholder="Enter your email"
-                                className="flex-1 rounded-full px-5 py-3 text-sm transition-colors focus:outline-none focus:border-[var(--color-blue-primary)] border"
-                                style={{
-                                    backgroundColor: 'var(--color-ink)',
-                                    borderColor: 'var(--color-border)',
-                                    color: 'var(--color-text-primary)'
-                                }}
+                                placeholder="your@email.com"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                                className="flex-1 rounded-md px-4 py-3 text-sm transition-colors focus:outline-none focus:border-[var(--color-blue-primary)] border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)]"
+                                style={{ fontFamily: 'var(--font-body)' }}
+                                disabled={status === 'loading' || status === 'success'}
                             />
                             <button
-                                className="group flex items-center justify-center gap-2 px-7 py-3 rounded-full text-sm font-semibold transition-all hover:scale-[1.02] hover:shadow-[0_0_24px_var(--color-blue-glow)]"
-                                style={{
-                                    backgroundColor: 'var(--color-blue-primary)',
-                                    color: '#08090F'
-                                }}
+                                type="submit"
+                                disabled={status === 'loading' || status === 'success'}
+                                className="group flex items-center justify-center gap-2 px-6 py-3 rounded-md text-sm font-medium transition-all hover:shadow-[0_0_20px_var(--color-blue-glow)] bg-[var(--color-blue-primary)] text-white disabled:opacity-60"
                             >
-                                Subscribe
-                                <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                                {status === 'loading' && <Loader2 size={14} className="animate-spin" />}
+                                {status === 'success' && <Check size={14} />}
+                                {status === 'success' ? 'Subscribed' : 'Subscribe'}
+                                {status === 'idle' && <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />}
                             </button>
-                        </div>
+                        </form>
+
+                        {status === 'error' && (
+                            <p className="mt-3 text-xs text-red-400" style={{ fontFamily: 'var(--font-body)' }}>
+                                {errorMessage}
+                            </p>
+                        )}
                     </div>
                 </RevealItem>
             </SectionReveal>

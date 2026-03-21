@@ -6,40 +6,34 @@ import SectionReveal, { RevealItem } from './SectionReveal';
 import { ArrowRight } from 'lucide-react';
 import { SanityProject } from '@/sanity/types';
 
-function ProjectCard({ project }: { project: SanityProject }) {
+function ProjectCard({ project, index }: { project: SanityProject; index: number }) {
     return (
         <RevealItem>
             <Link href={`/projects#${project.slug}`}>
                 <motion.div
-                    whileHover={{ y: -4 }}
+                    whileHover={{ y: -3 }}
                     transition={{ duration: 0.2, ease: 'easeOut' }}
-                    className="group relative rounded-2xl p-8 h-full cursor-pointer transition-all duration-300 border hover:border-[var(--color-blue-primary)]/30 hover:shadow-[0_0_40px_rgba(56,189,248,0.06)]"
-                    style={{
-                        backgroundColor: 'var(--color-surface)',
-                        borderColor: 'var(--color-border)'
-                    }}
+                    className="group relative p-7 h-full cursor-pointer transition-all duration-300 border border-[var(--color-border)] hover:border-[var(--color-blue-primary)]/30 bg-[var(--color-surface)] rounded-lg"
                 >
-                    <div className="flex items-center gap-2 mb-6">
-                        <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'var(--color-blue-primary)' }} />
-                        <span
-                            className="text-[10px] tracking-[0.12em] uppercase font-semibold"
-                            style={{ fontFamily: 'var(--font-body)', color: 'var(--color-blue-primary)' }}
-                        >
-                            {project.status}
+                    {/* Number */}
+                    <div className="flex items-center justify-between mb-6">
+                        <span className="text-[11px] tracking-[0.15em] font-mono text-[var(--color-text-tertiary)]">
+                            {String(index + 1).padStart(2, '0')}
                         </span>
+                        <div className="flex items-center gap-2">
+                            <span className={`w-1.5 h-1.5 rounded-full ${project.status.includes('Active') || project.status.includes('Development') ? 'animate-pulse' : ''}`}
+                                style={{ backgroundColor: 'var(--color-blue-primary)' }} />
+                            <span className="text-[10px] tracking-[0.1em] uppercase font-medium text-[var(--color-text-tertiary)]" style={{ fontFamily: 'var(--font-body)' }}>
+                                {project.status}
+                            </span>
+                        </div>
                     </div>
 
-                    <h3
-                        className="text-xl font-bold mb-3 tracking-tight group-hover:text-[var(--color-blue-primary)] transition-colors"
-                        style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
-                    >
+                    <h3 className="text-xl mb-3 tracking-tight group-hover:text-[var(--color-blue-primary)] transition-colors text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-heading)' }}>
                         {project.name}
                     </h3>
 
-                    <p
-                        className="text-sm leading-relaxed mb-8"
-                        style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)' }}
-                    >
+                    <p className="text-sm leading-relaxed mb-6 text-[var(--color-text-secondary)]" style={{ fontFamily: 'var(--font-body)' }}>
                         {project.description}
                     </p>
 
@@ -47,13 +41,8 @@ function ProjectCard({ project }: { project: SanityProject }) {
                         {project.tags?.map((tag) => (
                             <span
                                 key={tag}
-                                className="px-3 py-1 text-[10px] font-semibold tracking-wider uppercase rounded-full"
-                                style={{
-                                    fontFamily: 'var(--font-body)',
-                                    color: 'var(--color-accent)',
-                                    backgroundColor: 'rgba(129, 140, 248, 0.08)',
-                                    border: '1px solid rgba(129, 140, 248, 0.12)'
-                                }}
+                                className="px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase rounded-md border border-[var(--color-border)] text-[var(--color-text-tertiary)] bg-[var(--color-ink)]"
+                                style={{ fontFamily: 'var(--font-body)' }}
                             >
                                 {tag}
                             </span>
@@ -69,48 +58,37 @@ export default function ProjectsPreview({ projects = [] }: { projects?: SanityPr
     const topProjects = projects.slice(0, 3);
 
     return (
-        <section className="relative py-28 md:py-36" style={{ backgroundColor: 'var(--color-ink-light)' }}>
+        <section className="relative py-28 md:py-36" style={{ backgroundColor: 'var(--color-ink)' }}>
             <SectionReveal className="max-w-5xl mx-auto px-6 lg:px-10">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-14 gap-6">
-                    <RevealItem>
-                        <div>
-                            <span
-                                className="inline-block px-3 py-1 rounded-full text-[10px] tracking-[0.15em] uppercase mb-5 font-semibold"
-                                style={{
-                                    fontFamily: 'var(--font-body)',
-                                    color: 'var(--color-blue-primary)',
-                                    backgroundColor: 'rgba(56, 189, 248, 0.08)',
-                                    border: '1px solid rgba(56, 189, 248, 0.15)'
-                                }}
-                            >
-                                Research
-                            </span>
-                            <h2
-                                className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-tight"
-                                style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)' }}
-                            >
-                                Active Projects
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 mb-14">
+                    <RevealItem className="md:col-span-4">
+                        <span className="text-[10px] tracking-[0.2em] uppercase font-medium text-[var(--color-blue-primary)]" style={{ fontFamily: 'var(--font-body)' }}>
+                            Research
+                        </span>
+                        <div className="w-8 h-px bg-[var(--color-blue-primary)] mt-4 opacity-40" />
+                    </RevealItem>
+                    <div className="md:col-span-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                        <RevealItem>
+                            <h2 className="text-3xl md:text-4xl tracking-tight text-[var(--color-text-primary)]" style={{ fontFamily: 'var(--font-heading)' }}>
+                                Active projects
                             </h2>
-                        </div>
-                    </RevealItem>
-                    <RevealItem>
-                        <Link
-                            href="/projects"
-                            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-[13px] font-semibold tracking-wide border transition-all duration-300 hover:bg-[var(--color-surface)]"
-                            style={{
-                                fontFamily: 'var(--font-heading)',
-                                color: 'var(--color-text-primary)',
-                                borderColor: 'var(--color-border)'
-                            }}
-                        >
-                            View All Projects <ArrowRight size={14} />
-                        </Link>
-                    </RevealItem>
+                        </RevealItem>
+                        <RevealItem>
+                            <Link
+                                href="/projects"
+                                className="inline-flex items-center gap-2 text-[13px] font-medium text-[var(--color-blue-primary)] hover:text-[var(--color-blue-hover)] transition-colors group"
+                                style={{ fontFamily: 'var(--font-body)' }}
+                            >
+                                View all
+                                <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                            </Link>
+                        </RevealItem>
+                    </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                    {topProjects.map((project) => (
-                        <ProjectCard key={project._id} project={project} />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {topProjects.map((project, i) => (
+                        <ProjectCard key={project._id} project={project} index={i} />
                     ))}
                 </div>
             </SectionReveal>
