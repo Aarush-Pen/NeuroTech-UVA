@@ -22,13 +22,17 @@ export const projectsQuery = `*[_type == "project"] | order(name asc) {
   demoUrl
 }`;
 
-export const teamMembersQuery = `*[_type == "teamMember"] | order(order asc) {
+export const teamMembersQuery = `*[_type == "teamMember"] | order(orderRank asc) {
   _id,
   name,
   role,
   major,
   bio,
-  "photoUrl": photo.asset->url,
+  photo {
+    asset->{_id, url},
+    crop,
+    hotspot
+  },
   githubUrl,
   linkedinUrl
 }`;

@@ -27,13 +27,33 @@ export interface SanityProject {
   demoUrl?: string;
 }
 
+export interface SanityImageCrop {
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+}
+
+export interface SanityImageHotspot {
+  x: number;
+  y: number;
+  height: number;
+  width: number;
+}
+
+export interface SanityImageField {
+  asset: { _id: string; url: string };
+  crop?: SanityImageCrop;
+  hotspot?: SanityImageHotspot;
+}
+
 export interface SanityTeamMember {
   _id: string;
   name: string;
   role: string;
   major: string;
   bio: string;
-  photoUrl?: string;
+  photo?: SanityImageField;
   githubUrl?: string;
   linkedinUrl?: string;
 }

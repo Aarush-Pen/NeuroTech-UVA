@@ -5,6 +5,7 @@ import SectionReveal, { RevealItem } from '@/components/SectionReveal';
 import { motion } from 'framer-motion';
 import { Github, Linkedin } from 'lucide-react';
 import { SanityTeamMember } from '@/sanity/types';
+import { urlFor } from '@/sanity/image';
 
 export default function TeamGrid({ team = [] }: { team?: SanityTeamMember[] }) {
     return (
@@ -40,9 +41,9 @@ export default function TeamGrid({ team = [] }: { team?: SanityTeamMember[] }) {
                             >
                                 {/* Photo */}
                                 <div className="relative w-full aspect-[4/5] mb-4 rounded-md overflow-hidden bg-[var(--color-ink)] border border-[var(--color-border)]">
-                                    {member.photoUrl ? (
+                                    {member.photo?.asset ? (
                                         <img
-                                            src={member.photoUrl}
+                                            src={urlFor(member.photo).width(600).height(750).fit('crop').url()}
                                             alt={member.name}
                                             className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                                         />

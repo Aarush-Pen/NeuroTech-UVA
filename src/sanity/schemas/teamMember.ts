@@ -1,10 +1,14 @@
 import { defineField, defineType } from 'sanity';
+import { orderRankField, orderRankOrdering } from '@sanity/orderable-document-list';
+import { PhotoPreviewInput } from '../components/PhotoPreviewInput';
 
 export default defineType({
   name: 'teamMember',
   title: 'Leadership',
   type: 'document',
+  orderings: [orderRankOrdering],
   fields: [
+    orderRankField({ type: 'teamMember' }),
     defineField({
       name: 'name',
       title: 'Name',
@@ -36,6 +40,9 @@ export default defineType({
       options: {
         hotspot: true,
       },
+      components: {
+        input: PhotoPreviewInput,
+      },
     }),
     defineField({
       name: 'githubUrl',
@@ -46,13 +53,6 @@ export default defineType({
       name: 'linkedinUrl',
       title: 'LinkedIn URL',
       type: 'url',
-    }),
-    defineField({
-      name: 'order',
-      title: 'Order',
-      type: 'number',
-      description: 'Used to sort the members on the About page. Lower numbers appear first.',
-      initialValue: 99,
     }),
   ],
   preview: {
