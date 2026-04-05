@@ -6,6 +6,7 @@ export default defineType({
   name: 'teamMember',
   title: 'Leadership',
   type: 'document',
+  description: 'Club officers and leads displayed on the about/team section. Drag to reorder.',
   orderings: [orderRankOrdering],
   fields: [
     orderRankField({ type: 'teamMember' }),

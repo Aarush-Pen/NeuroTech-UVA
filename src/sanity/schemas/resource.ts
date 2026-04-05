@@ -4,6 +4,7 @@ export default defineType({
   name: 'resource',
   title: 'Resources',
   type: 'document',
+  description: 'Guides, repos, downloads, and slides shared with members on the resources page.',
   fields: [
     defineField({
       name: 'title',

@@ -4,6 +4,7 @@ export default defineType({
   name: 'event',
   title: 'Events',
   type: 'document',
+  description: 'Upcoming and past workshops, socials, speakers, and other club events shown on the events page.',
   fields: [
     defineField({
       name: 'title',

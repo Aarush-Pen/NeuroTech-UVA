@@ -4,6 +4,7 @@ export default defineType({
   name: 'project',
   title: 'Projects',
   type: 'document',
+  description: 'R&D projects displayed on the homepage and projects page.',
   fields: [
     defineField({
       name: 'name',

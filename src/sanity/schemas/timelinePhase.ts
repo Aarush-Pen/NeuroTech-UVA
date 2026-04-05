@@ -4,6 +4,7 @@ export default defineType({
   name: 'timelinePhase',
   title: 'Roadmap',
   type: 'document',
+  description: 'Timeline phases shown in the homepage roadmap section.',
   fields: [
     defineField({
       name: 'phase',

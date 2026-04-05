@@ -4,6 +4,7 @@ export default defineType({
   name: 'generalMeeting',
   title: 'General Meeting (Pinned Card)',
   type: 'document',
+  description: 'Recurring general meeting info displayed as a pinned card at the top of the events page.',
   fields: [
     defineField({
       name: 'dayTime',

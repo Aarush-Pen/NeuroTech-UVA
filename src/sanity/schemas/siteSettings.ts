@@ -4,6 +4,7 @@ export default defineType({
   name: 'siteSettings',
   title: 'Site Settings',
   type: 'document',
+  description: 'Global settings like active member count and founded year for the homepage stats bar.',
   fields: [
     defineField({
       name: 'activeMembers',
@@ -18,7 +19,7 @@ export default defineType({
       title: 'Founded Year',
       type: 'number',
       validation: (Rule) => Rule.required(),
-      initialValue: 2024,
+      initialValue: 2026,
     }),
   ],
   __experimental_formPreviewTitle: false,
