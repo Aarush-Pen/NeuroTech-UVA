@@ -27,8 +27,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "NeuroTech @ UVA — Engineering the Future of the Mind",
-    template: "%s | NeuroTech @ UVA",
+    default: "neurotech@uva",
+    template: "%s | neurotech@uva",
   },
   description:
     "NeuroTech @ UVA is a research-forward student club at the intersection of neuroscience and engineering at the University of Virginia.",
