@@ -55,9 +55,9 @@ export default function Hero() {
                     {/* Heading — editorial serif */}
                     <RevealItem>
                         <h1 className="text-5xl md:text-7xl lg:text-8xl leading-[0.92] tracking-tight" style={{ fontFamily: 'var(--font-heading)' }}>
-                            <span className="text-[var(--color-text-primary)]">NeuroTech</span>
+                            <span className="text-[var(--color-text-primary)]">neurotech</span>
                             <br />
-                            <span className="text-[var(--color-blue-primary)]">@ UVA</span>
+                            <span className="text-[var(--color-blue-primary)]">@ uva</span>
                         </h1>
                     </RevealItem>
 
